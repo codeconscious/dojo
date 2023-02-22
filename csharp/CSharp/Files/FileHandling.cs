@@ -19,7 +19,6 @@ namespace CSharp
             {
                 WriteLine("ERROR: " + ex.Message);
             }
-
         }
 
         public static void CreateModifyFile(string textToWrite, string path, bool append = true)

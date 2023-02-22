@@ -22,10 +22,12 @@ namespace CSharp
             };
 
             foreach (var i in input)
+            {
                 if (DateTime.TryParse(i.Key, out var date))
                     WriteLine(date.ToString(i.Value));
                 else
                     WriteLine($"ERROR: Could not parse \"{i.Key}\".");
+            }
         }
     }
 }
