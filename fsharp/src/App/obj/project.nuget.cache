@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "7igNirAI8i7oya5v0NekTTJj+J288PcEuFO1yRya/bAAwx8FpIiHYXOyphNA5ELqaAW4pxSF32ras3cD80VLHQ==",
+  "success": true,
+  "projectFilePath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/App.fsproj",
+  "expectedPackageFiles": [
+    "/Users/jd/.nuget/packages/fsharp.core/7.0.1-beta.22616.1/fsharp.core.7.0.1-beta.22616.1.nupkg.sha512"
+  ],
+  "logs": []
+}

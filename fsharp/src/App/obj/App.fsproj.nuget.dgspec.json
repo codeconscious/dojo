@@ -1,0 +1,126 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/App.fsproj": {}
+  },
+  "projects": {
+    "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/App.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/App.fsproj",
+        "projectName": "App",
+        "projectPath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/App.fsproj",
+        "packagesPath": "/Users/jd/.nuget/packages/",
+        "outputPath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/App/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/jd/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/sdk/7.0.200-preview.22628.1/FSharp/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/Library.fsproj": {
+                "projectPath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/Library.fsproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[7.0.1-beta.22616.1, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200-preview.22628.1/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/Library.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/Library.fsproj",
+        "projectName": "Library",
+        "projectPath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/Library.fsproj",
+        "packagesPath": "/Users/jd/.nuget/packages/",
+        "outputPath": "/Users/jd/Documents/Programming/github/dojo/fsharp/src/Library/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/jd/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/sdk/7.0.200-preview.22628.1/FSharp/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[7.0.1-beta.22616.1, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200-preview.22628.1/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
