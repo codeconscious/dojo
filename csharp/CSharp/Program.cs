@@ -79,7 +79,6 @@ public static class Program
             { "cancel", () => Cancellation.Start() },
             { "variables", () => Variables.Start() },
             { "compare", () => Comparison.Compare() },
-            // { "combinations", () => CharacterCombinations.CharacterCombinationCheck() },
             { "rot", () => Rot.Start() },
             { "reddit", () => RedditDailyProgrammer.Start()},
             { "equality", () => Equality.Start() },

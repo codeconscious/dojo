@@ -27,10 +27,14 @@ namespace CSharp
 
                 var pattern = "";
                 if (list != null)
+                {
                     for (var i = 0; i < list.Count; i++)
                         pattern += "{" + i + "}, ";
+                }
                 else
+                {
                     pattern = "{0}";
+                }
 
                 WriteLine($"  Pattern: {pattern}");
                 WriteLine($"  Argument count: {list?.Count ?? 0}");

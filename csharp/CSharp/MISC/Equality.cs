@@ -9,8 +9,8 @@ namespace CSharp
 
         private static void StringEqualityTest()
         {
-            string s1 = "test";
-            string s2 = "test";
+            const string s1 = "test";
+            const string s2 = "test";
             string s3 = "test1"[..4];
             object s4 = s3;
 
