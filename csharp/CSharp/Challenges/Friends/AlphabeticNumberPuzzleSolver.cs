@@ -19,7 +19,7 @@ public static class AlphabeticNumberPuzzleSolver
         if (rawWords.Length != 3)
         {
             WriteLine("Three words must be provided. You provided " +
-                $"{rawWords.Count()}: {string.Join(", ", rawWords)}.");
+                $"{rawWords.Length}: {string.Join(", ", rawWords)}.");
             return;
         }
 
@@ -35,7 +35,7 @@ public static class AlphabeticNumberPuzzleSolver
         var distinctLetters = words.SelectMany(str => str.ToCharArray()).Distinct();
 
         var distinctLetterCount = distinctLetters.Distinct().Count();
-        if (distinctLetterCount > numberSet.Count())
+        if (distinctLetterCount > numberSet.Count)
         {
             WriteLine("Failure: Not enough numbers for the count of distinct letters.");
             return;
@@ -49,13 +49,13 @@ public static class AlphabeticNumberPuzzleSolver
 
         // Map the locations of each distinct letter in the word array
         // so they can be replaced with numbers later.
-        var map = distinctLetters.ToDictionary(c => c, c => new List<(int X, int Y)>());
+        var map = distinctLetters.ToDictionary(c => c, _ => new List<(int X, int Y)>());
         foreach (var distinctLetter in distinctLetters)
         {
             // This avoids two additional for loops -- lovely.r
             map[distinctLetter].AddRange(
                 words.SelectMany((word, wordIndex) =>
-                    word.Select((letter, letterIndex) => (wordIndex, letterIndex))));
+                    word.Select((_, letterIndex) => (wordIndex, letterIndex))));
         }
 
         var numberPermutations = GetPermutations(numberSet, distinctLetterCount);

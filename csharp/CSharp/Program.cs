@@ -99,6 +99,7 @@ public static class Program
 
             // NuGet packages and such
             { "oneof", () => NuGetPackages.NugetOneOf.Start() },
+            { "functional", () => NuGetPackages.FunctionalCSharp.Start() },
         };
 
     public static void Main(string[] args)

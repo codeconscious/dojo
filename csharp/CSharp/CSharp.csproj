@@ -35,5 +35,6 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Spectre.Console" Version="0.43.0" />
     <PackageReference Include="OneOf" Version="3.0.211" />
+    <PackageReference Include="LanguageExt.Core" Version="4.4.2" />
   </ItemGroup>
 </Project>
