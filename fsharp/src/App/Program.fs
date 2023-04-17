@@ -1,5 +1,4 @@
-﻿// Reference: https://aka.ms/fsharp-console-apps
-open System
+﻿open System
 open Library
 
 [<EntryPoint>]
