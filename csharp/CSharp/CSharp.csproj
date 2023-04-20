@@ -9,7 +9,6 @@
     <None Remove="Microsoft.AspNet.WebApi.Client" />
     <None Remove="API\" />
     <None Remove="VersionTesting\" />
-    <None Remove="Functional\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Linq\" />
@@ -29,7 +28,6 @@
     <Folder Include="Challenges\CodeWars\" />
     <Folder Include="API\" />
     <Folder Include="VersionTesting\" />
-    <Folder Include="Functional\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
