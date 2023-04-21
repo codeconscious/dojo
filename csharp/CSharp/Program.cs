@@ -97,7 +97,7 @@ public static class Program
             { "10interview", () => Challenges.TenCommonJavaScriptQuestions.Start() },
 
             // NuGet packages and such
-            { "oneof", () => NuGetPackages.NugetOneOf.Start() },
+            { "oneof", () => NuGetPackages.OneOf.Start() },
             { "functional", () => NuGetPackages.FunctionalCSharp.Start() },
         };
 

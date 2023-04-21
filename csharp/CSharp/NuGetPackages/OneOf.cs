@@ -1,8 +1,8 @@
 using OneOf;
 
-namespace CSharp.Packages
+namespace CSharp.NuGetPackages
 {
-    public static class NugetOneOf
+    public static class OneOf
     {
         public static void Start()
         {
