@@ -26,7 +26,7 @@ fn main() {
     // rectangle_practice();
     // guessing_game(false);
     // collections::run();
-    regex::run();
+    // regex::run();
 }
 
 // Where unfiled code lives.
