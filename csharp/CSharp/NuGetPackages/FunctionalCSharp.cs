@@ -27,12 +27,18 @@ public static class FunctionalCSharp
 
         // Generate a list of random multipliers, then write the output of each having passed in the same int to each.
         var rnd = new Random();
-        var randomMultipliers = Enumerable.Range(1, 10)
+        var number = rnd.Next(15);
+        var randomMultipliers = Enumerable.Range(1, 5)
             .Select(_ => MultiplierGenerator(rnd.Next(1000))) // Maybe try .NextBytes?
             .ToImmutableList();
-        randomMultipliers.ForEach(multiplier => WriteWithExpression(multiplier(5)));
+        randomMultipliers.ForEach(multiplier => WriteWithExpression(multiplier(number)));
 
-
+        /// <summary>
+        /// Writes an expression and its output.
+        /// </summary>
+        /// <remarks>The CallerArgumentExpression attribute is great!</remarks>
+        /// <param name="result"></param>
+        /// <param name="expression"></param>
         static void WriteWithExpression(object result, [CallerArgumentExpression("result")] string? expression = null)
         {
             if (!string.IsNullOrWhiteSpace(expression))
@@ -52,7 +58,5 @@ public static class FunctionalCSharp
 
             WriteLine("   " + output);
         }
-
     }
 }
-
