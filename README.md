@@ -1,4 +1,4 @@
-# The Dojo / マイ道場
+# The Dojo
 
 A small workshop where I try out and practice with various languages.
 
