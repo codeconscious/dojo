@@ -115,9 +115,9 @@ fn rectangle_practice() {
     let square = Rectangle::square(10);
 }
 
-// fn combine_strings(first: &str, second: &str) -> &str {
-//     first + second
-// }
+fn combine_strings(first: &str, second: &str) -> String {
+    first.to_owned() + second
+}
 
 fn guessing_game(show_hints: bool) {
     let range_floor: i8 = 1;
