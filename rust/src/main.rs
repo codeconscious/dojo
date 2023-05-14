@@ -9,6 +9,7 @@ mod options;
 mod rectangle;
 mod regex;
 mod scoping;
+mod boxes;
 
 use rand::Rng;
 use rectangle::*;
@@ -27,6 +28,7 @@ fn main() {
     // guessing_game(false);
     // collections::run();
     // regex::run();
+    boxes::with_and_without_boxing();
 }
 
 // Where unfiled code lives.
@@ -75,7 +77,7 @@ fn string_experiments() {
     let c2 = c;
 
     // The next line does not compile because `c` was "moved" to `c2`, so cannot be "borrowed" here.
-    // To remedy this, above, use 'c.clone()` instead of just `c`. Could be expensive.
+    // To remedy this, use 'c.clone()` above instead of just `c`. Could be expensive, though.
     // println!("{c}");
 }
 
