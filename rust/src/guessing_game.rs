@@ -1,6 +1,6 @@
+use rand::Rng;
 use std::io;
 use std::io::Write;
-use rand::Rng;
 
 pub fn play(show_hints: bool) {
     let range_floor: i8 = 1;

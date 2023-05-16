@@ -1,18 +1,17 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 
+mod boxes;
 mod collections;
 mod generics;
+mod guessing_game;
 mod lang_test;
 mod math;
 mod options;
-mod rectangle;
+mod rectangles;
 mod regex;
 mod scoping;
-mod boxes;
-mod guessing_game;
 
-use rectangle::*;
 // use lang_test::language::{self, Language};
 // use lang_test::char_types::{JapaneseCharType, EnglishCharType};
 use lang_test::{char_types::*, language::*};
@@ -22,11 +21,11 @@ fn main() {
     // string_experiments();
     // scoping::run();
     // options::run();
-    // rectangle_practice();
     // guessing_game::play(false);
     // collections::run();
     // regex::run();
     // boxes::with_and_without_boxing();
+    rectangles::run();
 }
 
 // Where unfiled code lives.
@@ -77,40 +76,6 @@ fn string_experiments() {
     // The next line does not compile because `c` was "moved" to `c2`, so cannot be "borrowed" here.
     // To remedy this, use 'c.clone()` above instead of just `c`. Could be expensive, though.
     // println!("{c}");
-}
-
-fn rectangle_practice() {
-    let rect1 = Rectangle {
-        width: 5,
-        height: 7,
-        color: Rgb {
-            red: 70,
-            green: 80,
-            blue: 90,
-        },
-    };
-    println!(
-        "rect's area is {}, and its color is {}.",
-        rect1.area(),
-        rect1.color.as_text()
-    );
-    println!("rect1 is {:?}", rect1); // Unformatted
-    println!("rect1 is {:#?}", rect1); // Formatted
-    dbg!(&rect1);
-
-    let rect2 = Rectangle {
-        width: 3,
-        height: 3,
-        color: Rgb {
-            red: 0,
-            green: 0,
-            blue: 0,
-        },
-    };
-    let contained = rect1.can_contain(&rect2);
-    println!("{contained}");
-
-    let square = Rectangle::square(10);
 }
 
 fn combine_strings(first: &str, second: &str) -> String {
