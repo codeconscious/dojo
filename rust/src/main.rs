@@ -9,6 +9,7 @@ mod lang_test;
 mod math;
 mod options;
 mod rectangles;
+mod references;
 mod regex;
 mod scoping;
 
@@ -25,7 +26,8 @@ fn main() {
     // collections::run();
     // regex::run();
     // boxes::with_and_without_boxing();
-    rectangles::run();
+    // rectangles::run();
+    references::run();
 }
 
 // Where unfiled code lives.
@@ -80,61 +82,4 @@ fn string_experiments() {
 
 fn combine_strings(first: &str, second: &str) -> String {
     first.to_owned() + second
-}
-
-fn references() {
-    struct MyStruct<'a> {
-        text: &'a str,
-    }
-    let a = MyStruct { text: "Hi!" };
-    let b = &a; // Immutable reference to what `a` contains
-    let c = &a; // Immutable reference to what `a` contains
-    let d = &b; // Immutable reference via `b` to what `a` contains
-                // println!("{}", d.to_string()); // TODO: Figure out
-
-    let mut a = MyStruct { text: "2nd!" };
-    let b = &mut a; // Mutable ref to what `a` contains
-
-    // Dereferencing
-    let x = 5; // i32
-    let y = &x; // &i32
-    assert_eq!(x, 5);
-    // assert_eq!(y, 5); // ERROR: can't compare `{integer}` with `&{integer}`
-    assert_eq!(*y, 5); // Accesses the int32 directly
-
-    // Using Box<T> like a reference
-    let x = 5;
-    let y = Box::new(x);
-    assert_eq!(5, x);
-    assert_eq!(5, *y);
-
-    // Setup _without_ Deref
-    struct MyBox<T>(T);
-    impl<T> MyBox<T> {
-        fn new(x: T) -> MyBox<T> {
-            MyBox(x)
-        }
-    }
-    //
-    let x = 5;
-    let y = MyBox::new(x);
-
-    assert_eq!(5, x);
-    // assert_eq!(5, *y); // type `MyBox<{integer}>` cannot be dereferenced
-
-    // Setup _with_ Deref
-    struct MyBetterBox<T>(T);
-    impl<T> MyBetterBox<T> {
-        fn new(x: T) -> MyBetterBox<T> {
-            MyBetterBox(x)
-        }
-    }
-    use std::ops::Deref;
-    impl<T> Deref for MyBetterBox<T> {
-        type Target = T;
-
-        fn deref(&self) -> &Self::Target {
-            &self.0
-        }
-    }
 }
