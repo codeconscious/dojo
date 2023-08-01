@@ -2,9 +2,9 @@
 
 greeting = 'Hello 世界'
 print(greeting)
-print(greeting[0:5]) # The colon can be omitted
-print(greeting[0::2]) # Third number is the step
-print(greeting[::-1]) # Reverse the order
+print(greeting[0:5])  # "Hello" (The colon is optional)
+print(greeting[0::2]) # "Hlo世" (Third number is the step)
+print(greeting[::-1]) # "界世 olleH" (Reverses the order)
 print((greeting + " ") * 3) # In triplicate
 
 words = greeting.split(" ")
