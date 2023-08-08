@@ -9,3 +9,5 @@ def greet(names : Array(String), count : Int16)
 end
 
 greet(["マリオ", "ルイージ", "ピーチ", "キノピオ"], random_positive_int(20))
+
+# まあ、だいたいRubyだね。
