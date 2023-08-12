@@ -18,4 +18,13 @@ let main args =
     printfn "Tuples: %A" sumTo30
     printfn "Tuples summed: %A" (sumTuples sumTo30)
 
+    let scott = MyTypes.Person("Scott", "Summers", (uint8) 33)
+    let cyclops = MyTypes.SuperPerson("Cyclops", [|"optic blasts"|], scott)
+    let ororo = MyTypes.Person("Ororo", "Munroe", (uint8) 33)
+    let storm = MyTypes.SuperPerson("Store", [|"weather manipulation"|], ororo)
+    let xmen = MyTypes.Team("X-Men", [|cyclops; storm|])
+    printfn "%s" xmen.Describe
+    printfn "%s" cyclops.Describe
+    printfn "%s" scott.Describe
+
     0
