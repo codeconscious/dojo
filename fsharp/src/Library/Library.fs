@@ -23,3 +23,19 @@ let sumTo target =
 let sumTuples tuples =
     tuples
     |> List.map(fun (x,y) -> x + y)
+
+module MyTypes =
+    type Species = Human | Mutant | Inhuman | Robot | Android | Alien | Unspecified
+
+    type Person(firstName: string, lastName: string, age: uint8) =
+        // member this.Age = age
+        member this.FullName = firstName + " " + lastName
+        member this.Describe = firstName + " is " + age.ToString() + " years old."
+
+    type SuperPerson(codename: string, powers: string[], species: Species, civilianIdentity: Person) =
+        member this.CivilianIdentity = civilianIdentity
+        member this.Describe = codename + " is a(n) " + species.ToString() + " whose real name is " + this.CivilianIdentity.FullName + "."
+
+    type Team(name: string, members: SuperPerson[]) =
+        member this.Members = members
+        member this.Describe = "The team " + name + " contains " + members.Length.ToString() + " member(s)."
