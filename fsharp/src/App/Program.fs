@@ -28,7 +28,7 @@ let main args =
     let phoenix = MyTypes.SuperPerson(
         "Phoenix",
         MyTypes.Mutant,
-        MyTypes.Powers([|"telepathy"; "telekineses"|]),
+        MyTypes.Powers([|"telepathy"; "telekinesis"|]),
         jean)
     let ororo = MyTypes.Person("Ororo", "Munroe", (uint8) 32)
     let storm = MyTypes.SuperPerson(
@@ -39,6 +39,7 @@ let main args =
     let xmen = MyTypes.Team("X-Men", [|cyclops; phoenix; storm|])
     printfn "%s" xmen.Describe
     printfn "%s" cyclops.Describe
-    printfn "%s" scott.Describe
+    printfn "%s" phoenix.Describe
+    printfn "%s" storm.Describe
 
     0
