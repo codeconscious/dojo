@@ -27,12 +27,26 @@ let sumTuples tuples =
 module MyTypes =
     type Species = Human | Mutant | Inhuman | Robot | Android | Alien | Unspecified
 
+    type Powers(powers: string[]) =
+        member this.All = powers
+
+    // I decided against this because, for example, humans could have magic-based powers, and
+    // aliens might not have any powers.
+    // type Species =
+    //     | Human
+    //     | Mutant of Powers
+    //     | Inhuman of Powers
+    //     | Robot of Powers
+    //     | Android of Powers
+    //     | Alien of Powers
+
     type Person(firstName: string, lastName: string, age: uint8) =
         // member this.Age = age
         member this.FullName = firstName + " " + lastName
         member this.Describe = firstName + " is " + age.ToString() + " years old."
 
-    type SuperPerson(codename: string, powers: string[], species: Species, civilianIdentity: Person) =
+    // TODO: Make powers an Option.
+    type SuperPerson(codename: string, species: Species, powers: Powers, civilianIdentity: Person) =
         member this.CivilianIdentity = civilianIdentity
         member this.Describe = codename + " is a(n) " + species.ToString() + " whose real name is " + this.CivilianIdentity.FullName + "."
 
