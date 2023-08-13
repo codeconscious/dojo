@@ -1,5 +1,6 @@
 ﻿open System
 open Library
+open MyTypes
 
 [<EntryPoint>]
 let main args =
@@ -18,25 +19,25 @@ let main args =
     printfn "Tuples: %A" sumTo30
     printfn "Tuples summed: %A" (sumTuples sumTo30)
 
-    let scott = MyTypes.Person("Scott", "Summers", (uint8) 33)
-    let cyclops = MyTypes.SuperPerson(
+    let scott = Person("Scott", "Summers", (uint8) 33)
+    let cyclops = SuperPerson(
         "Cyclops",
-        MyTypes.Mutant,
-        MyTypes.Powers([|"optic blasts"|]),
+        Mutant,
+        Powers([|"optic blasts"|]),
         scott)
-    let jean = MyTypes.Person("Jean", "Grey-Summers", (uint8) 32)
-    let phoenix = MyTypes.SuperPerson(
+    let jean = Person("Jean", "Grey-Summers", (uint8) 32)
+    let phoenix = SuperPerson(
         "Phoenix",
-        MyTypes.Mutant,
-        MyTypes.Powers([|"telepathy"; "telekinesis"|]),
+        Mutant,
+        Powers([|"telepathy"; "telekinesis"|]),
         jean)
-    let ororo = MyTypes.Person("Ororo", "Munroe", (uint8) 32)
-    let storm = MyTypes.SuperPerson(
+    let ororo = Person("Ororo", "Munroe", (uint8) 32)
+    let storm = SuperPerson(
         "Storm",
-        MyTypes.Mutant,
-        MyTypes.Powers([|"weather manipulation"|]),
+        Mutant,
+        Powers([|"weather manipulation"|]),
         ororo)
-    // let moira = MyTypes.Person("Moria", "MacTaggert", (uint8) 43)
+    // let moira = Person("Moria", "MacTaggert", (uint8) 43)
     let xmen = MyTypes.Team("X-Men", [|cyclops; phoenix; storm|])
     printfn "%s" xmen.Describe
     printfn "%s" cyclops.Describe
