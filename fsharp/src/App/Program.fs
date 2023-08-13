@@ -36,10 +36,27 @@ let main args =
         MyTypes.Mutant,
         MyTypes.Powers([|"weather manipulation"|]),
         ororo)
+    // let moira = MyTypes.Person("Moria", "MacTaggert", (uint8) 43)
     let xmen = MyTypes.Team("X-Men", [|cyclops; phoenix; storm|])
     printfn "%s" xmen.Describe
     printfn "%s" cyclops.Describe
     printfn "%s" phoenix.Describe
     printfn "%s" storm.Describe
+
+    // Higher-order functions
+    let powerLevel = 100
+    let addTen i = i + 10
+    let applyAndDouble (fn:int -> int) i = fn i * 2
+    printfn "Final: %i" (applyAndDouble addTen powerLevel)
+
+    // Partial application of arguments
+    let areBothTrue x y = x && y
+    let testPartial = areBothTrue true
+    printfn "%b" (testPartial true)
+    printfn "%b" (testPartial false)
+
+    // Recursive
+    let rec fib n = if n < 2 then 1 else fib(n-1) + fib(n-2)
+    printfn "%i" (fib 10)
 
     0
