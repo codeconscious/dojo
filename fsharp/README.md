@@ -1,9 +1,5 @@
 # F# Dojo
 
-Playing around with F#! It's a lower priority at the moment because I'm prioritizing Haskell at the moment, but I hope to toy around with it sometime.
-
-## Notes
-
 - Run with `dotnet run` within the `App` directory.
 
 ## References
