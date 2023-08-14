@@ -43,6 +43,40 @@ module FunctionComposition =
         word |> String.map(fun s -> '*')
     let randomEncrypted = getRandom >> encrypt
 
+module DataGrouping =
+    let originTuple = (0, 0)
+    let first = fst originTuple
+    let second = snd originTuple
+    let first2, _ = originTuple
+
+    type Author =
+        {
+            FirstName: string
+            LastName: string
+            Age: int
+        }
+        member this.ProfileText() = printfn $"{this.FirstName} {this.LastName} ({this.Age})"
+        member _.Greet() = "Howdy!"
+
+    // Discriminated union
+    type Status =
+        | Active of author: Author
+        | Sabbatical of location: string
+        | Retired of year: uint
+
+    let getStatus (status: Status) =
+        match status with
+        | Active (author = auth) -> $"Status: Active ({auth.Greet})"
+        | Sabbatical location -> $"Status: On sabbatical in {location}"
+        | Retired year -> $"Status: Retired in {year}"
+
+    type Client = Client of id: int // Single member
+    // let unwrapClient client =
+    //     let (Client id) = client
+    //     printfn $"Client ID: {id}"
+    let unwrapClient (Client id) = // Briefer version
+        printfn $"Client ID: {id}"
+
 module People =
     open MyTypes
 
@@ -79,7 +113,19 @@ module People =
 
 module Run =
     open FunctionComposition
-    let words = ["おはようございます"; "こんにちは"; "こんばんは"]
-    printfn "Random greeting: %s" (getRandom words)
-    printfn "Encrypted word: %s" (encrypt "hello")
-    printfn "Random encrypted word: %s" (randomEncrypted words)
+    open DataGrouping
+
+    // let words = ["おはようございます"; "こんにちは"; "こんばんは"]
+    // printfn "Random greeting: %s" (getRandom words)
+    // printfn "Encrypted word: %s" (encrypt "hello")
+    // printfn "Random encrypted word: %s" (randomEncrypted words)
+
+
+    let her = { FirstName = "Wilma"; LastName = "Rider"; Age = 50 } // "Individual" not needed!
+    let him = { her with FirstName = "William"}
+    him.ProfileText()
+
+    printfn "%s" (Sabbatical "Okinawa" |> getStatus)
+
+    Client 007
+    |> unwrapClient
