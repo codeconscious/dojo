@@ -47,6 +47,10 @@ else: # Note: This is not hit if "break" is used
     print("Counting complete!")
 
 
+print(True + 1) # Prints `2`... ಠ_ಠ
+print(True == 1) # Prints `True`... ಠ_ಠ
+
+
 # Object equality check
 if myList is finalList:
     print("One and them same instance")
