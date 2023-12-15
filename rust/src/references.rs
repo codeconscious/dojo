@@ -6,20 +6,23 @@ pub fn run() {
     let a = MyStruct { text: "Hi!" };
     let b = &a; // Immutable reference to what `a` contains
     let c = &a; // Immutable reference to what `a` contains
-    let d = &b; // Immutable reference via `b` to what `a` contains
-    println!("b == c:   {}", b == c);
-    println!("b == *d:  {}", b == *d);
-    println!("a == **d: {}", a == **d);
+    let d = &b; // Immutable reference via `b` to the reference `a` contains (&&)
+    println!("b == c:   {}", a == *b); // true
+    println!("b == c:   {}", b == c); // true
+    println!("b == *d:  {}", b == *d); // true
+    println!("a == **d: {}", a == **d); // true
 
     let mut a = MyStruct { text: "2nd!" };
     let b = &mut a; // Mutable ref to what `a` contains
+    b.text = "Updated text";
+    println!("b.text == {}", b.text); // Updated text
 
     // Dereferencing
     let x = 5; // i32
     let y = &x; // &i32
-    assert_eq!(x, 5);
+    assert_eq!(x, 5); // True, so nothing happens
     // assert_eq!(y, 5); // ERROR: can't compare `{integer}` with `&{integer}`
-    assert_eq!(*y, 5); // Accesses the int32 directly
+    assert_eq!(*y, 5); // Accesses the int32 directly// True, so nothing happens
 
     // Using Box<T> like a reference
     let x = 5;
