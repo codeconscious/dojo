@@ -27,7 +27,8 @@ fn main() {
     // regex::run();
     // boxes::with_and_without_boxing();
     // rectangles::run();
-    references::run();
+    // references::run();
+    generics::run();
 }
 
 // Where unfiled code lives.

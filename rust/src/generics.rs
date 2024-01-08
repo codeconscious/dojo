@@ -5,10 +5,18 @@ pub fn run() {
         // array: [0, 1, 2, 3]
     };
 
-    let pair2 = DifferingTypePair {
+    let pair2a = DifferingTypePair {
         first: 13,
         second: "よ！",
     };
+
+    let pair2b = DifferingTypePair { first: 500, second: "hello" };
+    let pair2b_result = pair2b.convert();
+    println!("{pair2b_result}");
+
+    let pair2c: DifferingTypePair<u32, &str> = DifferingTypePair { first: 500, second: "goodbye" };
+    let pair2c_result = pair2c.convert();
+    println!("{pair2c_result}");
 }
 
 struct SameTypePair<T> {
@@ -33,6 +41,15 @@ impl DifferingTypePair<i32, bool> {
         match self.second {
             true => return self.first * -1,
             _ => return self.first,
+        }
+    }
+}
+
+impl DifferingTypePair<u32, &str> {
+    fn convert(&self) -> String {
+        match self.second {
+            "hello" => return String::from(format!("The number is {}", self.first)),
+            _ => return self.second.to_owned(),
         }
     }
 }
