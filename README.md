@@ -5,8 +5,9 @@ A very small workshop where I try out various languages and technologies. Keep i
 | Language |  Notes |
 |---|---|
 | Bash scripting | Definitely need to pick up more of this. |
-| Crystal | Basically Ruby, but with strong types and compile-time checks! |
+| Crystal | Basically Ruby, but with strong types and compile-time checks |
 | F#  |  Since I'm familiar with C# and .NET, and I'm interested in functional programming, this one seems like a natural match. I haven't dug in deeply yet, though. |
+| Go | Need to look more into this one. |
 | GraphQL  | Picked up for work. Pretty interesting. |
 | Haskell  | Another small foray into functional programming. |
 | Python  | I should look more into it since it's so ubiquitous these days. |
