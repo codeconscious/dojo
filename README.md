@@ -10,7 +10,8 @@ A very small workshop where I try out various languages and technologies. Keep i
 | Go | Need to look more into this one. |
 | GraphQL  | Picked up for work. Pretty interesting. |
 | Haskell  | Another small foray into functional programming. |
-| Python  | I should look more into it since it's so ubiquitous these days. |
-| Ruby  | Picked up for work. |
-| Rust  | Strong favorite! I hope to use Rust more in the future. |
+| Kotlin   | Haven't dug in much, but it seems pretty nice. |
+| Python   | I should look more into it since it's so ubiquitous these days. |
+| Ruby     | Picked up for work. |
+| Rust     | Strong favorite! I hope to use Rust more in the future. |
 | Typescript  | JavaScript with strong types! |
