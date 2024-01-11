@@ -33,6 +33,18 @@ module Functions =
     let rec fib n = if n < 2 then 1 else fib(n-1) + fib(n-2)
     // printfn "%i" (fib 10)
 
+    let add x y = x + y
+    let add1 = add 1
+    let add2 = add 2
+    let add3 = add1 >> add2
+    let add5 = add1 >> add2 >> add2
+    let c = add5 7
+    printfn "5 + 7 = %i" c // 12
+
+    let add16 = [add1; add2; add3; add5; add5] |> List.reduce (>>)
+    let d = add16 7
+    printfn "1 + 2 + 3 + 5 + 5 + 7 = %i" d // 23
+
 module FunctionComposition =
     let getRandom(pool:list<string>) =
         let rnd = Random()
