@@ -10,11 +10,17 @@ pub fn run() {
         second: "よ！",
     };
 
-    let pair2b = DifferingTypePair { first: 500, second: "hello" };
+    let pair2b = DifferingTypePair {
+        first: 500,
+        second: "hello",
+    };
     let pair2b_result = pair2b.convert();
     println!("{pair2b_result}");
 
-    let pair2c: DifferingTypePair<u32, &str> = DifferingTypePair { first: 500, second: "goodbye" };
+    let pair2c: DifferingTypePair<u32, &str> = DifferingTypePair {
+        first: 500,
+        second: "goodbye",
+    };
     let pair2c_result = pair2c.convert();
     println!("{pair2c_result}");
 }

@@ -5,6 +5,7 @@ mod boxes;
 mod collections;
 mod generics;
 mod guessing_game;
+mod kata;
 mod lang_test;
 mod math;
 mod options;
@@ -28,7 +29,8 @@ fn main() {
     // boxes::with_and_without_boxing();
     // rectangles::run();
     // references::run();
-    generics::run();
+    // generics::run();
+    kata::quadratic::start();
 }
 
 // Where unfiled code lives.

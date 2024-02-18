@@ -21,7 +21,7 @@ pub fn run() {
     let x = 5; // i32
     let y = &x; // &i32
     assert_eq!(x, 5); // True, so nothing happens
-    // assert_eq!(y, 5); // ERROR: can't compare `{integer}` with `&{integer}`
+                      // assert_eq!(y, 5); // ERROR: can't compare `{integer}` with `&{integer}`
     assert_eq!(*y, 5); // Accesses the int32 directly// True, so nothing happens
 
     // Using Box<T> like a reference
