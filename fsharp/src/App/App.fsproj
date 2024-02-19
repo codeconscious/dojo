@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Concepts.fs" />
+    <Compile Include="Dice.fs" />
     <Compile Include="Quadratic.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
