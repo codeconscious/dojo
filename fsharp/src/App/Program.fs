@@ -29,7 +29,6 @@ module Run =
     // printfn "%s" (calculate 1 2 3) // None
 
     open Dice
-
     let maybeSixSidedDie = Die.tryCreate 6
     let sixSidedDie =
         maybeSixSidedDie

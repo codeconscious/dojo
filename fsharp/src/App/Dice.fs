@@ -1,7 +1,6 @@
 module Dice
 
 type Die = Die of list<int>
-
 // Original manual ctor:
 // let createDie max = Die (Seq.toList { 1 .. max })
 
