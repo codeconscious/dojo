@@ -13,11 +13,13 @@ module Die = // common idiom: type companion module
     let standard = Die (Seq.toList { 1 .. 6 })
 
 let private rnd = System.Random()
-let roll (Die d) = d[rnd.Next(d.Length - 1)]
+let private roll (Die d) = d[rnd.Next(d.Length - 1)]
 
 let rollPrintMultiple times die =
-    for i = 1 to times do
-        let rolled = roll die
-        printfn "You rolled a %i" rolled
+    seq {for _ in 1..times do yield roll die}
+    |> Seq.toArray
+    |> Array.map (fun i -> i.ToString())
+    |> String.concat " and "
+    |> printfn "You rolled %s."
 
 let rollPrintOnce = rollPrintMultiple 1

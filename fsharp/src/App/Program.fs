@@ -29,14 +29,14 @@ module Run =
     // printfn "%s" (calculate 1 2 3) // None
 
     open Dice
-    let maybeSixSidedDie = Die.tryCreate 6
-    let sixSidedDie =
-        maybeSixSidedDie
+    let maybeDie = Die.tryCreate 20
+    let die =
+        maybeDie
         |> Option.defaultValue Die.standard
-    rollPrintOnce sixSidedDie
-    rollPrintMultiple 3 sixSidedDie
+    rollPrintOnce die
+    rollPrintMultiple 5 die
 
-    printfn "%d" (Concepts.FunctionComposition.add5Times3 3)
-    printfn "%d" (Concepts.FunctionComposition.add1Twice 3)
-    printfn "%d" (Concepts.FunctionComposition.add1ThenMultiply 3 10)
-    printfn "%d" (Concepts.FunctionComposition.times10Add1 5)
+    // printfn "%d" (Concepts.FunctionComposition.add5Times3 3)
+    // printfn "%d" (Concepts.FunctionComposition.add1Twice 3)
+    // printfn "%d" (Concepts.FunctionComposition.add1ThenMultiply 3 10)
+    // printfn "%d" (Concepts.FunctionComposition.times10Add1 5)
