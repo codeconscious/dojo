@@ -40,3 +40,6 @@ module Run =
     // printfn "%d" (Concepts.FunctionComposition.add1Twice 3)
     // printfn "%d" (Concepts.FunctionComposition.add1ThenMultiply 3 10)
     // printfn "%d" (Concepts.FunctionComposition.times10Add1 5)
+
+    printfn "%A" (Collections.Fold.foldIt 0)
+    printfn "%A" (Collections.Unfold.squareUpTo 1 101)
