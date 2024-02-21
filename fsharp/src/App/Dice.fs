@@ -17,7 +17,7 @@ let private rnd = System.Random()
 let private roll (Die d) = d[rnd.Next(d.Length - 1)]
 
 let rollPrintMultiple times die =
-    seq {for _ in 1..times do yield roll die}
+    seq {for _ in 1..times -> roll die}
     |> Seq.map (fun i -> i.ToString())
     |> String.concat " and "
     |> printfn "You rolled %s."
