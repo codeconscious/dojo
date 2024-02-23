@@ -4,8 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ComputationExpressions.fs" />
+    <Compile Include="Unions.fs" />
+    <Compile Include="FunctionComposition.fs" />
+    <Compile Include="PatternMatching.fs" />
+    <Compile Include="ActivePatterns.fs" />
     <Compile Include="Collections.fs" />
-    <Compile Include="Concepts.fs" />
     <Compile Include="Dice.fs" />
     <Compile Include="Quadratic.fs" />
     <Compile Include="Program.fs" />
