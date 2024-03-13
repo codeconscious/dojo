@@ -4,9 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Operators.fs" />
+    <Compile Include="Functions.fs" />
+    <Compile Include="Types/Results.fs" />
+    <Compile Include="Types/Options.fs" />
+    <Compile Include="Types/UnitsOfMeasure.fs" />
+    <Compile Include="Types/Records.fs" />
+    <Compile Include="Recursion.fs" />
     <Compile Include="ComputationExpressions.fs" />
     <Compile Include="Unions.fs" />
-    <Compile Include="FunctionComposition.fs" />
     <Compile Include="PatternMatching.fs" />
     <Compile Include="ActivePatterns.fs" />
     <Compile Include="Collections.fs" />

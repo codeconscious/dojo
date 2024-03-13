@@ -1,8 +1,7 @@
 ﻿open System
-open Library
 
-module Exercise01 =
-    printfn("Hello, World!")
+// module Exercise01 =
+//     printfn("Hello, World!")
 
 module Exercise02 =
     let expectedMinutesInOven = 40
@@ -28,18 +27,37 @@ module Run =
     // printfn "%s" (calculate 1 2 1) // One: -1.000000
     // printfn "%s" (calculate 1 2 3) // None
 
-    open Dice
-    let maybeDie = Die.tryCreate 20
-    let die =
-        maybeDie
-        |> Option.defaultValue Die.standard
-    rollPrintOnce die
-    rollPrintMultiple 5 die
+    // open Dice
+    // let maybeDie = Die.tryCreate 20
+    // let die =
+    //     maybeDie
+    //     |> Option.defaultValue Die.standard
+    // rollPrintOnce die
+    // rollPrintMultiple 5 die
 
     // printfn "%d" (Concepts.FunctionComposition.add5Times3 3)
     // printfn "%d" (Concepts.FunctionComposition.add1Twice 3)
     // printfn "%d" (Concepts.FunctionComposition.add1ThenMultiply 3 10)
     // printfn "%d" (Concepts.FunctionComposition.times10Add1 5)
 
-    printfn "%A" (Collections.Fold.foldIt 0)
-    printfn "%A" (Collections.Unfold.squareUpTo 1 101)
+    // printfn "%A" (Collections.Fold.foldIt 0)
+    // printfn "%A" (Collections.Unfold.squareUpTo 1 101)
+
+    // open Operators
+    // printfn "%i" (PipeForward.composedF 16)
+    // printfn "%i" (PipeForward.composedF2 16)
+    // printfn "%i" (PipeForward.pipelined 16)
+    // printfn "%A" (DoublePipeForward.composedF1 (1, 5))
+    // printfn "%A" (DoublePipeForward.composedF2 (1, 5))
+    // printfn "%A" (DoublePipeForward.pipelined (1, 5))
+
+    // printfn "%A" Functions.Folds.folded
+    // printfn "%A" Functions.Folds.foldedBack
+    // printfn "%A" Functions.Folds.evenNumbers
+    // printfn "%A" Functions.Reduce.reduced
+    // printfn "%A" Functions.Reduce.reducedBack
+
+    // printfn "%A" Collections.Functions.cheapestJaItemsCount
+    // printfn "%A" Collections.Functions.jaItems
+    // printfn "%A" Collections.Functions.usItems
+    printfn "%s" Collections.Functions.summary

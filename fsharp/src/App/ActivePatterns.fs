@@ -158,3 +158,41 @@ module ParameterizedPartialActivePatternExample1 =
 //     type Currency = JPY | USD
 
 //     let (|CharacterTypeChecker|)
+
+(*
+module Sample =
+    let inputList = [ 1; 2; 3; 4; 5; 6; 7; 8; 9; 10 ]
+
+    let status =
+        {| SourceList = inputList
+            SourceCount = 0
+            SourceWeight = 0
+            TargetList = list<int>.Empty
+            TargetCount = 0
+            TargetWeight = 0 |}
+
+    let afterWork =
+        status
+        |> (fun st ->
+            {| st with
+                SourceCount = st.SourceList.Length |})
+        |> (fun st ->
+            {| st with
+                SourceWeight = List.sum st.SourceList |})
+        |> (fun st ->
+            {| st with
+                TargetList = List.filter (fun x -> x % 2 = 0) st.SourceList |})
+        |> (fun st ->
+            {| st with
+                TargetCount = st.TargetList.Length |})
+        |> (fun st ->
+            {| st with
+                TargetWeight = List.sum st.TargetList |})
+
+    printf
+        "Job Complete. Source Count: %d, Source Total: %d, Target Count: %d, Target Total: %d"
+        afterWork.SourceCount
+        afterWork.SourceWeight
+        afterWork.TargetCount
+        afterWork.TargetWeight
+*)
