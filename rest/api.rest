@@ -1,0 +1,93 @@
+@site=https://restdesign.dev
+
+GET {{site}}
+
+###
+
+GET {{site}}/api/customers
+Accept: application/json
+
+###
+
+POST {{site}}/api/customers
+Accept: application/json
+Content-Type: application/json
+
+{
+    "companyName": "Epic APIs",
+    "contact": "Claudie Lynch",
+    "phoneNumber": "623-369-5083 x379",
+    "email": null,
+    "addressLine1": "715 Benny Center",
+    "addressLine2": null,
+    "addressLine3": null,
+    "city": "Fernandoburgh",
+    "stateProvince": "MN",
+    "postalCode": "77240-3310",
+    "country": null,
+    "projects": []
+}
+
+###
+
+PUT {{site}}/api/customers/27
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 27,
+  "companyName": "Epic APIs II",
+  "contact": "Sam I. Amh",
+  "phoneNumber": "623-369-5083 x379",
+  "email": null,
+  "addressLine1": "715 Benny Center",
+  "addressLine2": null,
+  "addressLine3": null,
+  "city": "Fernandoburgh",
+  "stateProvince": "MN",
+  "postalCode": "77240-3310",
+  "country": null,
+  "projects": []
+}
+
+###
+
+GET {{site}}/api/customers/1?includeProjects=true
+Accept: application/json
+
+###
+
+GET {{site}}/api/tickets?page=2
+Accept: application/json
+
+###
+
+GET {{site}}/api/projects
+Accept: application/xml
+
+###
+
+GET {{site}}/api/tickets?useHeaders=true&page=2
+
+###
+
+<!-- CACHING should be part of your API design.
+     Use ETags to avoid unnecessary data retrievals and
+     overwriting of newer tags.
+-->
+GET {{site}}/api/tickets/
+Accept: application/json
+If-None-Match: "0D090B825B6B3D9B16E95885C208B8E4"
+
+<!-- Functional APIs are about executing operations
+     and not updating data.
+
+     Consider using the OPTIONS verb, which is less
+     discoverable than the others.
+-->
+
+<!-- ASYNC APIs
+     Samples: Comet, gRPC, SignalR (multi-casting),
+              Firebase, Socket.IO, etc.
+
+-->
