@@ -138,7 +138,7 @@ module PartialActivePatternExample1 =
     [1..100] |> List.iter (fizzBuzz >> printfn "%s")
 
 module ParameterizedPartialActivePatternExample1 =
-    let (|MultipleOf|_|) (multiplicand : int) (number : int) =
+    let (|MultipleOf|_|) multiplicand number =
         if (number % multiplicand = 0) then Some MultipleOf else None
 
     let (|Fizz|_|) = (|MultipleOf|_|) 3
