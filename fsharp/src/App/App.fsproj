@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Blackjack.fs" />
     <Compile Include="Operators.fs" />
     <Compile Include="Functions.fs" />
     <Compile Include="Types/Results.fs" />
