@@ -127,3 +127,28 @@ module Functions =
         |> List.filter (fun i -> i.Country.Name = "United States")
         |> List.mapi (fun i item -> sprintf "%i. %A" i item.Amount)
         |> String.concat "\n"
+
+module Zero =
+    (* 'inline' is used due to `Array.average`, which has a static parameterって。
+
+       Inline functions are functions that are integrated directly into the calling code.
+       When you use static type parameters, any functions that are parameterized by type
+       parameters must be inline. This guarantees that the compiler can resolve these
+       type parameters. When you use ordinary generic type parameters, there is no such restriction.
+       The presence of inline affects type inference. This is because inline functions can have
+       statically resolved type parameters, whereas non-inline functions cannot.
+       [Source: https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/inline-functions]
+    *)
+    let inline averageOrZero (values : 'T[]) =
+        if values.Length = 0 then
+            LanguagePrimitives.GenericZero<'T>
+        else
+            values |> Array.average
+
+    let inline averageOr (defaultValue : 'T) (values : 'T[]) =
+        if values.Length = 0 then
+            defaultValue
+        else
+            values |> Array.average
+
+    let sample = [|100.m; 1.m|] |> averageOr 0.m
