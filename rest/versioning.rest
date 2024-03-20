@@ -1,0 +1,33 @@
+@site=https://restdesign.dev
+
+###
+
+GET {{site}}/api/customers/9?v=1.0
+
+###
+
+GET {{site}}/api/customers/9?v=2.0
+
+###
+
+GET {{site}}/api/customers/9
+Accept: application/json
+X-Version: 1.0
+
+###
+
+GET {{site}}/api/customers/9
+Accept: application/json
+X-Version: 2.0
+
+###
+
+GET {{site}}/api/customers/9
+Accept: application/vnd.design.rest-v1.0+json
+
+###
+
+GET {{site}}/api/customers/9
+Accept: application/vnd.design.rest-v2.0+json
+# Can use `Content-Type: application/vnd.design.rest-v2.0+json`
+# in POSTS and PUTs, etc., too.
