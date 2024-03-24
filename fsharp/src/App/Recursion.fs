@@ -62,3 +62,14 @@ module MutuallyExclusive =
 
 module RecursiveValues =
     let rec nameDoubles = nameof nameDoubles + nameof nameDoubles
+
+module Practice =
+    let printEachChar (str:string) =
+        let chars = str |> Seq.toList
+        let rec loop chars =
+            match chars with
+            | [] -> ()
+            | h :: t -> // |> head :: tail
+                printf " > %c" h
+                loop t
+        loop chars

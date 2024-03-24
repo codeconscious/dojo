@@ -60,4 +60,6 @@ module Run =
     // printfn "%A" Collections.Functions.cheapestJaItemsCount
     // printfn "%A" Collections.Functions.jaItems
     // printfn "%A" Collections.Functions.usItems
-    printfn "%s" Collections.Functions.summary
+    // printfn "%s" Collections.Functions.summary
+
+    Recursion.Practice.printEachChar "日本鹿児島県"
