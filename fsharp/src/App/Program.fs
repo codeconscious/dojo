@@ -64,7 +64,7 @@ module Run =
 
     // Recursion.Practice.printEachChar "日本鹿児島県"
 
-    open ComputationExpressions.Practice1
+    open ComputationExpressions.Practice1b
 
     printfn "%A" (printResult good)
     printfn "%A" (printResult bad)
