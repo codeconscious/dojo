@@ -62,4 +62,9 @@ module Run =
     // printfn "%A" Collections.Functions.usItems
     // printfn "%s" Collections.Functions.summary
 
-    Recursion.Practice.printEachChar "日本鹿児島県"
+    // Recursion.Practice.printEachChar "日本鹿児島県"
+
+    open ComputationExpressions.Practice1
+
+    printfn "%A" (printResult good)
+    printfn "%A" (printResult bad)
