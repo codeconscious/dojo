@@ -69,7 +69,7 @@ module Practice =
         let rec loop chars =
             match chars with
             | [] -> ()
-            | h :: t -> // |> head :: tail
+            | h :: t ->
                 printf " > %c" h
                 loop t
         loop chars
