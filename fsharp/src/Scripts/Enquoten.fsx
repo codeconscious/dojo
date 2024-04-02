@@ -1,9 +1,19 @@
 open System
 open System.IO
 
-(* TODOs:
-   - Avoid exceptions where possible
-   - Custom quote prefix
+(* Summary: Reads one or more text-only files and splits each file's lines to the
+            maximum line length provided. Each line is prefixed with "> ", and the
+            prefix is included in the line length calculation.
+   Requirements: .NET 8 SDK
+   Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
+          Sample: `dotnet fsi 70 'Documents/file1.txt'
+          Sample: `dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
+
+   TODOS and improvement ideas:
+   - Validation: Check for no files submitted
+   - Validation: Filter out files with errors (e.g., missing files) first
+   - Avoid exceptions where possible, perhaps using computation expressions
+   - Allow custom quote prefixes (maybe)
 *)
 
 let args =
@@ -15,13 +25,14 @@ let prefix = "> "
 
 let extractArgs (args:string list) =
     match args with
-    | width::files -> match width |> System.Int32.TryParse with
-                      | true, int ->
-                            match int with
-                            | i when i > 0 -> Ok(int, files |> List.distinct)
-                            | _ -> Error (sprintf "The width \"%s\" is invalid. It must be greater than 0." width)
-                      | _ -> Error (sprintf "The width \"%s\" is invalid. It must be greater than 0." width)
-    | _ -> Error <| sprintf "Invalid args provided."
+    | lengthLimit::files ->
+        match lengthLimit |> System.Int32.TryParse with
+        | true, int ->
+            match int with
+            | i when i > prefix.Length + 1 -> Ok(int, files |> List.distinct)
+            | _ -> Error <| sprintf "The width \"%s\" is too low. It must be greater than 0." lengthLimit
+        | _ -> Error <| sprintf "The width \"%s\" is invalid. Provide a number greater than 0." lengthLimit
+    | _ -> Error <| sprintf "Invalid args provided. Enter a maximum length and one or more file paths."
 
 let (limit, files) =
     match extractArgs args with
@@ -31,7 +42,7 @@ let (limit, files) =
         else limit - prefix.Length - 1, files
     | Error e -> invalidOp e
 
-let read path =
+let readFile path =
     try
         path
         |> File.ReadAllText
@@ -40,11 +51,11 @@ let read path =
         | :? FileNotFoundException -> Error $"\"{path}\" was not found."
         | e -> Error $"Settings unexpectedly could not be read from \"{path}\": {e.Message}"
 
-let rec splitLine lengthLimit fullLine =
+let rec splitLine fullLine lengthLimit =
     let finalSpaceIndex (text:string) (indexCeiling:int) =
         let resultIndex = text.LastIndexOf(" ", indexCeiling) // Searches backwards
-        match resultIndex with
-        | -1 -> text.Length - 1
+        match text.LastIndexOf(" ", indexCeiling) with
+        | -1 -> indexCeiling - 1
         | _  -> resultIndex
 
     let rec loop acc (linePart:string) limit =
@@ -57,17 +68,17 @@ let rec splitLine lengthLimit fullLine =
             loop (acc @ [head]) tail limit
     loop [] fullLine lengthLimit
 
-let enquoten prefix line =
-    sprintf "%s%s" prefix line
+let enquoten prefix text =
+    sprintf "%s%s" prefix text
 
 files
-|> Seq.map (fun f -> read f)
+|> Seq.map (fun f -> readFile f)
 |> Seq.iter (fun l ->
     match l with
     | Ok l ->
         l.Split Environment.NewLine
         |> Array.toList
-        |> List.map (fun l -> splitLine limit l)
+        |> List.map (fun l -> splitLine l limit)
         |> List.collect (fun l -> l)
         |> List.map (fun l -> enquoten prefix l)
         |> List.iter (fun l -> l |> printfn "%s")
