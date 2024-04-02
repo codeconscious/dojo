@@ -10,6 +10,7 @@ open System.IO
           Sample: `dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
 
    TODOS and improvement ideas:
+   - Incorporate computation expressions!
    - Validation: Check for no files submitted
    - Validation: Filter out files with errors (e.g., missing files) first
    - Avoid exceptions where possible, perhaps using computation expressions
