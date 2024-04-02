@@ -41,18 +41,19 @@ let read path =
         | e -> Error $"Settings unexpectedly could not be read from \"{path}\": {e.Message}"
 
 let rec splitLine limit line =
-    // let lastSpaceIndex (str:string) =
-    //     let endIndex = str.Length - 1
-    //     let index = str.LastIndexOf(" ", endIndex)
-    //     match index with
-    //     | -1 -> endIndex
-    //     | _ -> index
+    let lastSpaceIndex (str:string) (searchCeilingIndex:int) =
+        let endIndex = str.Length - 1
+        let resultIndex = str.LastIndexOf(" ", searchCeilingIndex)
+        match resultIndex with
+        | -1 -> endIndex
+        | _ -> resultIndex
     let rec loop acc limit (lineInner:string) =
         match lineInner.Length with
         | l when l <= limit -> acc @ [lineInner]
         | _ ->
-            let head = lineInner[..limit]
-            let tail = lineInner[limit+1..]
+            let index = lastSpaceIndex lineInner limit
+            let head = lineInner[..index]
+            let tail = lineInner[index+1..]
             loop (acc @ [head]) limit tail
     loop [] limit line
 
