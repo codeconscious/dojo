@@ -2,7 +2,7 @@ open System
 open System.IO
 
 (* TODOs:
-   - Avoid exceptions!
+   - Avoid exceptions where possible
    - Custom quote prefix
 *)
 
@@ -57,8 +57,8 @@ let rec splitLine lengthLimit fullLine =
             loop (acc @ [head]) tail limit
     loop [] fullLine lengthLimit
 
-let enquoten quoteText line =
-    sprintf "%s%s" quoteText line
+let enquoten prefix line =
+    sprintf "%s%s" prefix line
 
 files
 |> Seq.map (fun f -> read f)
