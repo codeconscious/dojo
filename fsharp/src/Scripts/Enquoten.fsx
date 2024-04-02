@@ -1,21 +1,25 @@
-open System
-open System.IO
+(* ENQUOTEN F# Script
 
-(* Summary: Reads one or more text-only files and splits each file's lines to the
+   Summary: Reads one or more text-only files and splits each file's lines to the
             maximum line length provided. Each line is prefixed with "> ", and the
             prefix is included in the line length calculation.
+
    Requirements: .NET 8 SDK
+
    Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
           Sample: `dotnet fsi 70 'Documents/file1.txt'
           Sample: `dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
 
-   TODOS and improvement ideas:
+   TODOs and improvement ideas:
    - Incorporate computation expressions!
    - Validation: Check for no files submitted
    - Validation: Filter out files with errors (e.g., missing files) first
    - Avoid exceptions where possible, perhaps using computation expressions
    - Allow custom quote prefixes (maybe)
 *)
+
+open System
+open System.IO
 
 let args =
     fsi.CommandLineArgs
