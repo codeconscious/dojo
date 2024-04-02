@@ -1,17 +1,17 @@
 open System
 open System.IO
-open System.Text
 
 (* TODOs:
-   -
+   - Avoid exceptions!
+   - Custom quote prefix
 *)
 
-let rawArgs =
+let args =
     fsi.CommandLineArgs
     |> Array.toList
-    |> List.tail
+    |> List.tail // The head contains the script filename.
 
-let quoteText = "> "
+let prefix = "> "
 
 let extractArgs (args:string list) =
     match args with
@@ -24,11 +24,11 @@ let extractArgs (args:string list) =
     | _ -> Error <| sprintf "Invalid args provided."
 
 let (limit, files) =
-    match extractArgs rawArgs with
+    match extractArgs args with
     | Ok (limit, files) ->
-        if limit <= quoteText.Length
+        if limit <= prefix.Length
         then invalidOp "The line length limit cannot exceed the quotation text length."
-        else limit - quoteText.Length - 1, files
+        else limit - prefix.Length - 1, files
     | Error e -> invalidOp e
 
 let read path =
@@ -40,34 +40,35 @@ let read path =
         | :? FileNotFoundException -> Error $"\"{path}\" was not found."
         | e -> Error $"Settings unexpectedly could not be read from \"{path}\": {e.Message}"
 
-let rec splitLine limit line =
-    let lastSpaceIndex (str:string) (searchCeilingIndex:int) =
-        let endIndex = str.Length - 1
-        let resultIndex = str.LastIndexOf(" ", searchCeilingIndex)
+let rec splitLine lengthLimit fullLine =
+    let finalSpaceIndex (text:string) (indexCeiling:int) =
+        let resultIndex = text.LastIndexOf(" ", indexCeiling) // Searches backwards
         match resultIndex with
-        | -1 -> endIndex
-        | _ -> resultIndex
-    let rec loop acc limit (lineInner:string) =
-        match lineInner.Length with
-        | l when l <= limit -> acc @ [lineInner]
+        | -1 -> text.Length - 1
+        | _  -> resultIndex
+
+    let rec loop acc (linePart:string) limit =
+        match linePart.Length with
+        | l when l <= limit -> acc @ [linePart]
         | _ ->
-            let index = lastSpaceIndex lineInner limit
-            let head = lineInner[..index]
-            let tail = lineInner[index+1..]
-            loop (acc @ [head]) limit tail
-    loop [] limit line
+            let splitIndex = finalSpaceIndex linePart limit
+            let head = linePart[..splitIndex]
+            let tail = linePart[splitIndex+1..]
+            loop (acc @ [head]) tail limit
+    loop [] fullLine lengthLimit
 
 let enquoten quoteText line =
     sprintf "%s%s" quoteText line
 
 files
 |> Seq.map (fun f -> read f)
-|> Seq.iter (fun l0 -> match l0 with
-                       | Ok l -> l.Split Environment.NewLine
-                                 |> Array.toList
-                                 |> List.map
-                                     (fun l -> splitLine limit l)
-                                 |> List.collect (fun l -> l)
-                                 |> List.map (fun l -> enquoten quoteText l)
-                                 |> List.iter (fun l -> printfn "%s" l)
-                       | Error e -> printfn "%s" e)
+|> Seq.iter (fun l ->
+    match l with
+    | Ok l ->
+        l.Split Environment.NewLine
+        |> Array.toList
+        |> List.map (fun l -> splitLine limit l)
+        |> List.collect (fun l -> l)
+        |> List.map (fun l -> enquoten prefix l)
+        |> List.iter (fun l -> l |> printfn "%s")
+    | Error e -> printfn "%s" e)
