@@ -4,18 +4,17 @@
             maximum line length provided. Each line is prefixed with "> ", and the
             prefix is included in the line length calculation.
 
-   Requirements: .NET 8 SDK
+   Requirements: .NET 8 SDK (Untested on previous versions, though it might work)
 
    Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
           Sample: `dotnet fsi 70 'Documents/file1.txt'
           Sample: `dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
 
    TODOs and improvement ideas:
-   - Incorporate computation expressions!
-   - Validation: Check for no files submitted
+   - Incorporate computation expressions! (Priority)
    - Validation: Filter out files with errors (e.g., missing files) first
-   - Avoid exceptions where possible, perhaps using computation expressions
-   - Allow custom quote prefixes (maybe)
+   - Allow custom quote prefixes
+   - Allow optionally disabling space checking for better Japanese support
 *)
 
 open System
