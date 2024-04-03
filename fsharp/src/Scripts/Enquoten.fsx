@@ -56,7 +56,7 @@ let readFile path =
         | :? FileNotFoundException -> Error $"\"{path}\" was not found."
         | e -> Error $"Settings unexpectedly could not be read from \"{path}\": {e.Message}"
 
-let rec splitLine fullLine lengthLimit =
+let splitLine fullLine lengthLimit =
     let finalSpaceIndex (text:string) (indexCeiling:int) =
         let resultIndex = text.LastIndexOf(" ", indexCeiling) // Searches backwards
         match text.LastIndexOf(" ", indexCeiling) with
