@@ -7,8 +7,8 @@
    Requirements: .NET 8 SDK (Untested on previous versions, though it might work)
 
    Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
-          Sample: `dotnet fsi 70 'Documents/file1.txt'
-          Sample: `dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
+          Sample: dotnet fsi 70 'Documents/file1.txt'
+          Sample: dotnet fsi 50 'Documents/file1.txt' 'Documents/file2.log'
 
    TODOs and improvement ideas:
    - Incorporate computation expressions! (Priority)
@@ -27,18 +27,18 @@ let args =
 
 let prefix = "> "
 
-let extractArgs (args:string list) =
-    match args with
-    | lengthLimit::files ->
-        match lengthLimit |> System.Int32.TryParse with
-        | true, int ->
-            match int with
-            | i when i > prefix.Length + 1 -> Ok(int, files |> List.distinct)
-            | _ -> Error <| sprintf "The width \"%s\" is too low. It must be greater than 0." lengthLimit
-        | _ -> Error <| sprintf "The width \"%s\" is invalid. Provide a number greater than 0." lengthLimit
-    | _ -> Error <| sprintf "Invalid args provided. Enter a maximum length and one or more file paths."
-
 let (limit, files) =
+    let extractArgs (args:string list) =
+        match args with
+        | lengthLimit::files ->
+            match lengthLimit |> System.Int32.TryParse with
+            | true, int ->
+                match int with
+                | i when i > prefix.Length + 1 -> Ok(int, files |> List.distinct)
+                | _ -> Error <| sprintf "The width \"%s\" is too low. It must be greater than 0." lengthLimit
+            | _ -> Error <| sprintf "The width \"%s\" is invalid. Provide a number greater than 0." lengthLimit
+        | _ -> Error <| sprintf "Invalid args provided. Enter a maximum length and one or more file paths."
+
     match extractArgs args with
     | Ok (limit, files) ->
         if limit <= prefix.Length
@@ -67,9 +67,9 @@ let splitLine fullLine lengthLimit =
         | l when l <= limit -> acc @ [linePart]
         | _ ->
             let splitIndex = finalSpaceIndex linePart limit
-            let head = linePart[..splitIndex]
-            let tail = linePart[splitIndex+1..]
-            loop (acc @ [head]) tail limit
+            let trimmed = linePart[..splitIndex]
+            let remaining = linePart[splitIndex+1..]
+            loop (acc @ [trimmed]) remaining limit
     loop [] fullLine lengthLimit
 
 let enquoten prefix text =
