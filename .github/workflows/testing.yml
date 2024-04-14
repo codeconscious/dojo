@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "成功しました！"
-      - name: Test \#1
-        run: echo "こんにちは😀😀😀"
+      - name: Event data
+        run: echo '${{toJSON(github.event)}}'
