@@ -17,3 +17,10 @@ jobs:
       - name: Get Head Commit Message
         id: get_head_commit_message
         run: echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
+
+      - name: Get latest commit title
+        id: get-commit-title
+        run: echo "::set-output name=commit-title::$(git log -1 --pretty=format:'%s')"
+      - name: Print commit title
+        run: |
+          echo "Latest commit title: ${{ steps.get-commit-title.outputs.commit-title }}"
