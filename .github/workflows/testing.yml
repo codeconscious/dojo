@@ -12,6 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check event name
+        run: |
+          if [ ${{ github.event_name }} == 'pull_request' ]; then
+            echo "This is a pull request event"
+          elif [ ${{ github.event_name }} == 'push' ]; then
+            echo "This is a push event"
+          else
+            echo "This is an unexpected event!"
+          fi
       - name: Conditional, if pull_request event
         if: ${{ github.event_name == 'pull_request' }}
         run: |
