@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - run: echo "成功しました！"
+      - run: echo "成功しました！"
       - name: Test \#1
-        run: echo "こんにちは😀"
+        run: echo "こんにちは😀😀😀"
