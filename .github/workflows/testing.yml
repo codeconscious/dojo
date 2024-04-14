@@ -21,7 +21,7 @@ jobs:
           echo "Event action is " ${{ github.event.action }}
       - name: Conditional, if PR event
         if: ${{ github.event_name == 'pull_request' }}
-        run: echo "Conditionally ran PULL_REQUEST step!"
+        run: echo "Conditionally ran PULL_REQUEST step!!"
       - name: Conditional, if push event
         if: ${{ github.event_name == 'push' }}
-        run: echo "Conditionally ran PUSH step!"
+        run: echo "Conditionally ran PUSH step!!"
