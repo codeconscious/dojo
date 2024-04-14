@@ -1,0 +1,22 @@
+name: learn-github-actions
+run-name: ${{ github.actor }}さんはGitHub Actionsの勉強していらっしゃる!
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  first:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Conditional, if pull_request event
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "Conditionally running PULL_REQUEST step!"
+      - name: Conditional, if push event
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          echo "Conditionally running PUSH step!"
