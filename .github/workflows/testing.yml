@@ -12,13 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Event data
+      - name: Event
         run: echo '${{toJSON(github.event)}}'
-      - name: Get Head Commit Message
-        id: get_head_commit_message
-        run: echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
-
-      - name: Print event type
+      - name: Print debug data
         run: |
+          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
           echo "Event name is " ${{ github.event_name }}
           echo "Event action is " ${{ github.event.action }}
+      - name: Conditional, if PR event
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo "Conditionally ran PULL_REQUEST step!"
+      - name: Conditional, if push event
+        if: ${{ github.event_name == 'push' }}
+        run: echo "Conditionally ran PUSH step!"
