@@ -9,11 +9,12 @@ on:
 
 jobs:
   first:
+    if: ${{ !startsWith(github.event.head_commit.message, 'WIP') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ env.GITHUB_SHA }}
+        # with:
+        #   ref: ${{ env.GITHUB_SHA }}
       - name: Get Head Commit Message
         id: get_head_commit_message
         run: echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
