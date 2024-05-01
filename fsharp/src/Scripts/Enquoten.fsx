@@ -11,17 +11,11 @@
 
    TODOs and improvement ideas:
    - Incorporate computation expressions! (Priority)
-   - Allow optionally disabling space checking for better Japanese support
    - Allow custom quote prefixes
 *)
 
 open System
 open System.IO
-
-let args =
-    fsi.CommandLineArgs
-    |> Array.toList
-    |> List.tail // The head contains the script filename.
 
 let quoteText = "> "
 
@@ -42,28 +36,33 @@ type Args =
     { Limit: int
       File: string }
 
-let validateArgCount (args:string list) =
-    match args.Length with
-    | l when l = 2 -> Ok (args.Head, args.Tail.Head)
-    | _ -> Error "You must supply a maximum line length and one file."
+let validateArgs =
+    let rawArgs =
+        fsi.CommandLineArgs
+        |> Array.toList
+        |> List.tail // The head contains the script filename.
 
-let validateLimit (args:string * string) =
-    match args with
-    | (l, f) ->
-        match (l |> System.Int32.TryParse) with
-        | true, i when i >= 10 -> Ok (i, f)
-        | true, _ -> Error "Requested line length too short."
-        | _ -> Error "Maximum line length must be numeric."
+    let validateArgCount (args:string list) =
+        match args.Length with
+        | l when l = 2 -> Ok (args.Head, args.Tail.Head)
+        | _ -> Error "You must supply a maximum line length and one file."
 
-let validateFileExists (args:int * string) =
-    match args with
-    | (l, f) ->
-        match f |> File.Exists with
-        | true -> Ok { Limit = l; File = f }
-        | false -> Error $"The file \"{f}\" does not exist."
+    let validateLimit (args:string * string) =
+        match args with
+        | (l, f) ->
+            match (l |> System.Int32.TryParse) with
+            | true, i when i >= 10 -> Ok (i, f)
+            | true, _ -> Error "Requested line length too short."
+            | _ -> Error "Maximum line length must be numeric."
 
-let validateArgs (args:string list) =
-    args
+    let validateFileExists (args:int * string) =
+        match args with
+        | (l, f) ->
+            match f |> File.Exists with
+            | true -> Ok { Limit = l; File = f }
+            | false -> Error $"The file \"{f}\" does not exist."
+
+    rawArgs
     |> validateArgCount
     |> Result.bind validateLimit
     |> Result.bind validateFileExists
@@ -85,7 +84,6 @@ let splitLine fullLine lengthLimit =
         | _  -> resultIndex
 
     let rec loop acc (linePart:string) limit =
-        // printfn $"Length is {limit}!"
         match linePart.Length with
         | l when l <= limit -> acc @ [linePart]
         | _ ->
@@ -111,6 +109,6 @@ let processFile args =
                 |> List.iter (fun l -> l |> printfn "%s")
             | Error e -> printfn "%s" e)
 
-match validateArgs args with
+match validateArgs with
 | Ok validatedArgs -> processFile validatedArgs
 | Error e -> printfn $"Error parsing args: {e}"
