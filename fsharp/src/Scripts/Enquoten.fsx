@@ -13,7 +13,11 @@
 open System
 open System.IO
 
-let quoteText = "> "
+let quotePrefix = "> "
+
+type Args<'T> =
+    { Limit: 'T
+      File: string }
 
 type ResultBuilder() =
     member this.Bind(m, f) =
@@ -26,10 +30,6 @@ type ResultBuilder() =
 
 let result = new ResultBuilder()
 
-type Args =
-    { Limit: int
-      File: string }
-
 let validateArgs =
     let rawArgs =
         fsi.CommandLineArgs
@@ -38,22 +38,22 @@ let validateArgs =
 
     let validateArgCount (args:string list) =
         match args.Length with
-        | l when l = 2 -> Ok (args.Head, args.Tail.Head)
+        | l when l = 2 -> Ok { Limit = args.Head; File = args.Tail.Head }
         | _ -> Error "You must supply a maximum line length and one file."
 
-    let validateLimit (args:string * string) =
+    let validateLimit (args:Args<string>) =
         match args with
-        | (l, f) ->
+        | { Args.Limit = l; Args.File = f } ->
             match (l |> System.Int32.TryParse) with
-            | true, i when i >= 10 -> Ok (i, f)
+            | true, i when i >= 10 -> Ok { Limit = i; File = f }
             | true, _ -> Error "Requested line length too short."
             | _ -> Error "Maximum line length must be numeric."
 
-    let validateFileExists (args:int * string) =
+    let validateFileExists (args:Args<int>) =
         match args with
-        | (l, f) ->
+        | { Args.Limit = l; Args.File = f } ->
             match f |> File.Exists with
-            | true -> Ok { Limit = l; File = f }
+            | true -> Ok args
             | false -> Error $"The file \"{f}\" does not exist."
 
     result {
@@ -101,7 +101,7 @@ let processFile args =
                 |> Array.toList
                 |> List.map (fun l -> splitLine l args.Limit)
                 |> List.collect (fun l -> l)
-                |> List.map (fun l -> enquoten quoteText l)
+                |> List.map (fun l -> enquoten quotePrefix l)
                 |> List.iter (fun l -> l |> printfn "%s")
             | Error e -> printfn "%s" e)
 
