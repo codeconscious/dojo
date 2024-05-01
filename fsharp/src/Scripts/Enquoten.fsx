@@ -8,10 +8,6 @@
 
    Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
           Sample: dotnet fsi 70 'Documents/file1.txt'
-
-   TODOs and improvement ideas:
-   - Incorporate computation expressions! (Priority)
-   - Allow custom quote prefixes
 *)
 
 open System
@@ -19,18 +15,16 @@ open System.IO
 
 let quoteText = "> "
 
-// type ResultBuilder() =
-//     member this.Bind(m, f) =
-//         match m with
-//         | Error e -> Error e
-//         | Ok a ->
-//             printfn "\tSuccessful: %A" a
-//             f a
+type ResultBuilder() =
+    member this.Bind(m, f) =
+        match m with
+        | Error e -> Error e
+        | Ok a -> f a
 
-//     member this.Return(x) =
-//         Ok x
+    member this.Return(x) =
+        Ok x
 
-// let result = new ResultBuilder()
+let result = new ResultBuilder()
 
 type Args =
     { Limit: int
@@ -62,10 +56,12 @@ let validateArgs =
             | true -> Ok { Limit = l; File = f }
             | false -> Error $"The file \"{f}\" does not exist."
 
-    rawArgs
-    |> validateArgCount
-    |> Result.bind validateLimit
-    |> Result.bind validateFileExists
+    result {
+        let! a = validateArgCount rawArgs
+        let! a' = validateLimit a
+        let! a'' = validateFileExists a'
+        return a''
+    }
 
 let readFile file =
     try
@@ -98,10 +94,10 @@ let enquoten prefix text =
 
 let processFile args =
     readFile args.File
-    |> (fun lines ->
-            match lines with
-            | Ok lines ->
-                lines.Split Environment.NewLine
+    |> (fun text ->
+            match text with
+            | Ok text ->
+                text.Split Environment.NewLine
                 |> Array.toList
                 |> List.map (fun l -> splitLine l args.Limit)
                 |> List.collect (fun l -> l)
