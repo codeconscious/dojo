@@ -98,10 +98,10 @@ let enquoten prefix text =
 
 let processFile args =
     readFile args.File
-    |> (fun line ->
-            match line with
-            | Ok line ->
-                line.Split Environment.NewLine
+    |> (fun lines ->
+            match lines with
+            | Ok lines ->
+                lines.Split Environment.NewLine
                 |> Array.toList
                 |> List.map (fun l -> splitLine l args.Limit)
                 |> List.collect (fun l -> l)
