@@ -98,19 +98,19 @@ let splitLine fullLine lengthLimit =
 let enquoten prefix text =
     sprintf "%s%s" prefix text
 
-let validatedArgs = validateArgs args
-
-match validatedArgs with
-| Ok a ->
-    readFile a.File
+let processFile args =
+    readFile args.File
     |> (fun line ->
             match line with
             | Ok line ->
                 line.Split Environment.NewLine
                 |> Array.toList
-                |> List.map (fun l -> splitLine l a.Limit)
+                |> List.map (fun l -> splitLine l args.Limit)
                 |> List.collect (fun l -> l)
                 |> List.map (fun l -> enquoten quoteText l)
                 |> List.iter (fun l -> l |> printfn "%s")
             | Error e -> printfn "%s" e)
-| Error e -> printfn "Error parsing args."
+
+match validateArgs args with
+| Ok validatedArgs -> processFile validatedArgs
+| Error e -> printfn $"Error parsing args: {e}"
