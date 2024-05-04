@@ -42,8 +42,10 @@ let validateArgs =
 
     let validateArgCount (args:string list) =
         match args.Length with
-        | l when l = 2 -> Ok { Limit = args.Head; File = args.Tail.Head }
-        | _ -> Error "You must supply a maximum line length and one file."
+        | l when l = 2 ->
+            Ok { Limit = args.Head; File = args.Tail.Head }
+        | _ ->
+            Error "You must supply a maximum line length and one file."
 
     let validateLimit (args:Args<string>) =
         match args with
@@ -55,7 +57,7 @@ let validateArgs =
 
     let validateFileExists (args:Args<int>) =
         match args with
-        | { Args.Limit = l; Args.File = f } ->
+        | { Args.Limit = _; Args.File = f } ->
             match f |> File.Exists with
             | true -> Ok args
             | false -> Error $"The file \"{f}\" does not exist."
@@ -94,7 +96,7 @@ let splitLine fullLine lengthLimit =
     loop [] fullLine lengthLimit
 
 let enquoten prefix text =
-    sprintf "%s%s" prefix text
+    text |> sprintf "%s%s" prefix
 
 let processFileText limit (text:string) =
     text.Split Environment.NewLine
@@ -105,11 +107,13 @@ let processFileText limit (text:string) =
 
 let output =
     result {
-        let! validatedArgs = validateArgs
-        let! fileText = readFile validatedArgs.File
-        return processFileText validatedArgs.Limit fileText
+        let! okArgs = validateArgs
+        let! fileText = readFile okArgs.File
+        return fileText |> processFileText okArgs.Limit
     }
 
 match output with
-| Ok lines -> lines |> List.iter (fun l -> l |> printfn "%s")
-| Error e -> printfn "%s" e
+| Ok lines ->
+    lines |> List.iter (fun l -> l |> printfn "%s")
+| Error e ->
+    e |> printfn "%s"
