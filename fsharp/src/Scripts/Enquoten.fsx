@@ -8,6 +8,10 @@
 
    Usage: dotnet fsi <lineLengthLimit> <filePath(s)>
           Sample: dotnet fsi 70 'Documents/file1.txt'
+
+   Note: This was created mainly for learning purposes and might not be very good. ^_^
+
+   Last update: May 4, 2024, to add computation expressions
 *)
 
 open System
@@ -57,10 +61,10 @@ let validateArgs =
             | false -> Error $"The file \"{f}\" does not exist."
 
     result {
-        let! a = validateArgCount rawArgs
-        let! a' = validateLimit a
-        let! a'' = validateFileExists a'
-        return a''
+        let! args = validateArgCount rawArgs
+        let! args' = validateLimit args
+        let! args'' = validateFileExists args'
+        return args''
     }
 
 let readFile file =
@@ -92,19 +96,20 @@ let splitLine fullLine lengthLimit =
 let enquoten prefix text =
     sprintf "%s%s" prefix text
 
-let processFile args =
-    readFile args.File
-    |> (fun text ->
-            match text with
-            | Ok text ->
-                text.Split Environment.NewLine
-                |> Array.toList
-                |> List.map (fun l -> splitLine l args.Limit)
-                |> List.collect (fun l -> l)
-                |> List.map (fun l -> enquoten quotePrefix l)
-                |> List.iter (fun l -> l |> printfn "%s")
-            | Error e -> printfn "%s" e)
+let processFileText limit (text:string) =
+    text.Split Environment.NewLine
+    |> Array.toList
+    |> List.map (fun l -> splitLine l limit)
+    |> List.collect (fun l -> l)
+    |> List.map (fun l -> enquoten quotePrefix l)
 
-match validateArgs with
-| Ok validatedArgs -> processFile validatedArgs
-| Error e -> printfn $"Error parsing args: {e}"
+let output =
+    result {
+        let! validatedArgs = validateArgs
+        let! fileText = readFile validatedArgs.File
+        return processFileText validatedArgs.Limit fileText
+    }
+
+match output with
+| Ok lines -> lines |> List.iter (fun l -> l |> printfn "%s")
+| Error e -> printfn "%s" e
