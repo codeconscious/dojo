@@ -1,6 +1,6 @@
 (* Enquoten: An F# Script
 
-   Summary: Reads a text file and splits its lines to the maximum line length
+   Summary: Reads a single text file and splits its lines to the maximum line length
             limit provided. The prefix is included in the line length calculation, and it
             must be shorter then the line length limit. The script will try to split lines
             at spaces, but if none are found, it will cut the line at the line length limit.
@@ -88,28 +88,28 @@ let readFile file =
         | :? FileNotFoundException -> Error $"\"{file}\" was not found."
         | e -> Error $"Unexpectedly could not read \"{file}\": {e.Message}"
 
-let splitLine fullLine (args:Args<int>) =
-    let finalSpaceIndex (text:string) (indexCeiling:int) =
-        let index = text.LastIndexOf(" ", indexCeiling) // Searches backwards
-        match text.LastIndexOf(" ", indexCeiling) with
-        | -1 -> indexCeiling - 1
-        | _  -> index
-
-    let rec loop acc (linePart:string) limit =
-        match linePart.Length with
-        | l when l <= limit ->
-            acc @ [linePart]
-        | _ ->
-            let splitIndex = finalSpaceIndex linePart limit
-            let trimmed = linePart[..splitIndex]
-            let remaining = linePart[splitIndex+1..]
-            loop (acc @ [trimmed]) remaining limit
-    loop [] fullLine <| args.Limit - args.Prefix.Length
-
-let enquoten prefix text =
-    text |> sprintf "%s%s" prefix
-
 let processFileText (args:Args<int>) (text:string) =
+    let enquoten prefix text =
+        text |> sprintf "%s%s" prefix
+
+    let splitLine fullLine (args:Args<int>) =
+        let finalSpaceIndex (text:string) (indexCeiling:int) =
+            let index = text.LastIndexOf(" ", indexCeiling) // Searches backwards
+            match text.LastIndexOf(" ", indexCeiling) with
+            | -1 -> indexCeiling - 1
+            | _  -> index
+
+        let rec loop acc (linePart:string) limit =
+            match linePart.Length with
+            | l when l <= limit ->
+                acc @ [linePart]
+            | _ ->
+                let splitIndex = finalSpaceIndex linePart limit
+                let trimmed = linePart[..splitIndex]
+                let remaining = linePart[splitIndex+1..]
+                loop (acc @ [trimmed]) remaining limit
+        loop [] fullLine <| args.Limit - args.Prefix.Length
+
     text.Split Environment.NewLine
     |> Array.toList
     |> List.map (fun l -> splitLine l args)
