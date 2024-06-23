@@ -1,9 +1,11 @@
 # A simple ROT13 exercise to get better acquainted with Ruby syntax.
+# Pass in one or more strings to process.
 
 # Represents starting and ending values for character ranges.
 # Ex.: Use 97 ('a') and 122 ('z') to represent lowercase letters.
 # Due to the simple nature of this current implementation,
-# the range must contain an even number of items.
+# the range must contain an even number of items. (Luckily, the
+# English alphabet has an even number of letters.)
 class CharRange
     def initialize(starts, ends)
         @starts = starts
@@ -63,7 +65,7 @@ class RotProcessor
 end
 
 if ARGV.length == 0
-    puts "You must enter at least one text argument."
+    puts "You must enter at least one string argument."
     return
 end
 
