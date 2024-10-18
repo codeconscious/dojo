@@ -66,7 +66,7 @@ func SummarizePowers(powers []power) string {
 }
 
 // Taken wholesale from https://stackoverflow.com/a/50025091/11767771.
-// Golang doesn't have its own `map`ping function yet!
+// (Golang seemingly doesn't have its own `Map` function yet!?)
 func Map(vs []string, f func(string) string) []string {
 	vsm := make([]string, len(vs))
 	for i, v := range vs {
