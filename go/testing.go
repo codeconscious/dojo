@@ -65,12 +65,12 @@ func SummarizePowers(powers []power) string {
 	return strings.Join(descriptions, " and ")
 }
 
-// Taken wholesale from https://stackoverflow.com/a/50025091/11767771.
-// (Golang seemingly doesn't have its own `Map` function yet!?)
-func Map(vs []string, f func(string) string) []string {
-	vsm := make([]string, len(vs))
-	for i, v := range vs {
-		vsm[i] = f(v)
+// Source: https://stackoverflow.com/a/72498530/11767771.
+// (Golang's standard library doesn't have its own `Map` function yet...)
+func Map[T, V any](ts []T, fn func(T) V) []V {
+	result := make([]V, len(ts))
+	for i, t := range ts {
+		result[i] = fn(t)
 	}
-	return vsm
+	return result
 }
