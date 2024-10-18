@@ -62,7 +62,7 @@ func SummarizePowers(powers []power) string {
 	for _, name := range powers {
 		descriptions = append(descriptions, name.Description)
 	}
-	return fmt.Sprintf(strings.Join(descriptions, " and "))
+	return strings.Join(descriptions, " and ")
 }
 
 // Taken wholesale from https://stackoverflow.com/a/50025091/11767771.
