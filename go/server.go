@@ -21,6 +21,6 @@ func requestServer() {
 	resp, err := http.Get("http://localhost:8080")
 	fmt.Println(err)
 	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	fmt.Printf("\nWebserver said: `%s`", string(body))
 }
