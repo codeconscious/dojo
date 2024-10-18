@@ -81,6 +81,8 @@ func main() {
 		}(10, 2))
 
 	Defer()
+	learnConcurrency()
+	learnWebProgramming()
 }
 
 // Declare variables in the method signature!
