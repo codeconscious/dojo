@@ -4,6 +4,6 @@
 // References:
 // - https://go.dev/doc/tutorial/getting-started
 // - https://go.dev/ref/mod#go-mod-init
-module intro/basic
+module intro/testing_golang
 
 go 1.21.0
