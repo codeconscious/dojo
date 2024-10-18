@@ -6,6 +6,25 @@ import (
 	"time"
 )
 
+type power struct {
+	ID          int
+	Description string
+}
+
+type team struct {
+	ID   int
+	Name string
+}
+
+type person struct {
+	ID         int
+	GivenName  string
+	FamilyName string
+	AddedTime  time.Time
+	Powers     []power
+	Team       team
+}
+
 func main() {
 	fmt.Println(GreetPerson("四郎"))
 
@@ -54,23 +73,4 @@ func Map(vs []string, f func(string) string) []string {
 		vsm[i] = f(v)
 	}
 	return vsm
-}
-
-type person struct {
-	ID         int
-	GivenName  string
-	FamilyName string
-	AddedTime  time.Time
-	Powers     []power
-	Team       team
-}
-
-type power struct {
-	ID          int
-	Description string
-}
-
-type team struct {
-	ID   int
-	Name string
 }
