@@ -1,12 +1,12 @@
 export class SplatoonPlayer {
-    name : string;
-    gender : Gender;
-    level : number;
-    gachiRank : GachiRank;
-    preferredWeaponType : string;
+    name: string;
+    gender: Gender;
+    level: number;
+    gachiRank: GachiRank;
+    preferredWeaponType: WeaponType;
 
-    // Is there a more succinct syntax?
-    constructor(name : string, gender : Gender, level : number, gachiRank : GachiRank, weaponType : string) {
+    // Is there a shorter syntax?
+    constructor(name: string, gender: Gender, level: number, gachiRank: GachiRank, weaponType: WeaponType) {
         this.name = name;
         this.gender = gender;
         this.level = level;
@@ -14,20 +14,34 @@ export class SplatoonPlayer {
         this.preferredWeaponType = weaponType;
     }
 
-    describe() : void {
+    describe(): void {
         console.log(`${this.name} is a ${this.gender} (level ${this.level}, rank ${this.gachiRank}) that likes ${this.preferredWeaponType}.`)
     }
 }
 
-export enum Gender {
+enum Gender {
     Boy = "boy",
     Girl = "girl"
 }
 
-export enum GachiRank {
+enum GachiRank {
     C = "C",
     B = "B",
     A = "A",
     S = "S",
     X = "X"
+}
+
+enum WeaponType {
+    Shooters = "Shooters",
+    Rollers = "Rollers",
+    Chargers = "Chargers",
+    Sloshers = "Sloshers",
+    Splatlings = "Splatlings",
+    Dualies = "Dualies",
+    Brellas = "Brellas",
+    Blasters = "Blasters",
+    Brushes = "Brushes",
+    Stringers = "Stringers",
+    Splatanas = "Splatanas",
 }
