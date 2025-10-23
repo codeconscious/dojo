@@ -1,9 +1,12 @@
+(* Selected JavaScript problems in F#. *)
+
 open System
+
 let ensureEqual expected actual  =
     if actual <> expected
     then printfn $"NOT EQUAL! Expected: {expected} / Actual: {actual}"
 
-(* EASY: https://github.com/0x66796e6e/interview-preparation/blob/master/markdown/easy/easy-js-questions.md *)
+(* https://github.com/0x66796e6e/interview-preparation/blob/master/markdown/easy/easy-js-questions.md *)
 module Easy =
     module One = // Convert an array of strings to an array of the lengths of those strings
         let input = [ "this"; "is"; "an"; "array" ]
@@ -162,3 +165,37 @@ Easy.Sixteen.run'
 Easy.Seventeen.run
 Easy.Eighteen.run
 Easy.TwentyTwo.run
+
+module Medium =
+    module Three = // Reverse each word in a string.
+        let input = "Hello my name is Fynn"
+        let expected = "olleH ym eman si nnyF"
+
+        let run =
+            input.Split ' '
+            |> Array.map (fun word -> word.ToCharArray() |> Array.rev |> String)
+            |> String.concat " "
+
+    module Eight = // Find the maximum sum of products in two arrays.
+        let input = [ [3; 4; 1; 2]; [9; 4; 8; 2] ]
+        let expected = 70 // Abbreviated output, eliding the string.
+
+        let run =
+            let sortedInput = input |> List.map (fun list -> List.sort list)
+
+            [0..input[0].Length-1]
+            |> List.map (fun i -> sortedInput[0][i] * sortedInput[1][i])
+            |> List.sum
+            |> ensureEqual expected
+
+        let run' =
+            input
+            |> List.map List.sort
+            |> List.transpose
+            |> List.map (List.reduce (*))
+            |> List.sum
+            |> ensureEqual expected
+
+Medium.Three.run
+Medium.Eight.run
+Medium.Eight.run'
