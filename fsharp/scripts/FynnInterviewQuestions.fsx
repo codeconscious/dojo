@@ -196,6 +196,33 @@ module Medium =
             |> List.sum
             |> ensureEqual expected
 
+    module Eleven = // Convert a string to "Jaden Case" (TIL: Named after Will Smith's son...)
+        let input = "Hello my name is Fynn"
+        let expected = "Hello My Name Is Fynn"
+
+        let run =
+            input.Split " "
+            |> Array.map (fun word -> $"{Char.ToUpperInvariant word[0]}{word[1..]}")
+            |> String.concat " "
+            |> ensureEqual expected
+
+    module Seventeen = // Check if the parenthesis are balanced.
+        let input = "(({}){})"
+        let expected = true
+
+        let run () =
+            let replace (text: string) = text.Replace("{}", String.Empty).Replace("()", String.Empty)
+
+            let rec check target =
+                match replace target with
+                | "" -> true
+                | x when x.Length = target.Length -> false
+                | x -> check x
+
+            check input |> ensureEqual expected
+
 Medium.Three.run
 Medium.Eight.run
 Medium.Eight.run'
+Medium.Eleven.run
+Medium.Seventeen.run()
