@@ -1,6 +1,7 @@
 (* Selected JavaScript problems in F#. *)
 
 open System
+open System.Text
 
 let ensureEqual expected actual  =
     if actual <> expected
@@ -217,13 +218,28 @@ module Medium =
                     .Replace("()", String.Empty)
                 |> function
                 | "" -> true
-                | text' when text'.Length = text.Length -> false
-                | text' -> check text'
+                | x when x.Length = text.Length -> false
+                | x -> check x
 
             check input |> ensureEqual expected
+
+        let run' () = // Uses a StringBuilder for greater efficiency.
+            let rec check attemptsRemaining (workingText: StringBuilder) =
+                workingText
+                    .Replace("{}", String.Empty)
+                    .Replace("()", String.Empty)
+                |> function
+                | x when x.Length = 0 -> true
+                | x ->
+                    if attemptsRemaining = 0
+                    then false
+                    else check (attemptsRemaining - 1) x
+
+            input |> StringBuilder |> check 10 |> ensureEqual expected
 
 Medium.Three.run()
 Medium.Eight.run()
 Medium.Eight.run'()
 Medium.Eleven.run()
 Medium.Seventeen.run()
+Medium.Seventeen.run'()
