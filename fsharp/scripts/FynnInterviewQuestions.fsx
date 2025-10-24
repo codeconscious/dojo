@@ -212,13 +212,13 @@ module Medium =
         let expected = true
 
         let run () =
-            let replace (text: string) = text.Replace("{}", String.Empty).Replace("()", String.Empty)
-
-            let rec check target =
-                match replace target with
+            let rec check (text: string) =
+                text.Replace("{}", String.Empty)
+                    .Replace("()", String.Empty)
+                |> function
                 | "" -> true
-                | x when x.Length = target.Length -> false
-                | x -> check x
+                | text' when text'.Length = text.Length -> false
+                | text' -> check text'
 
             check input |> ensureEqual expected
 
