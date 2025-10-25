@@ -27,6 +27,50 @@ class Easy
       actual = input.map { |word| word.chars.sort }.uniq.length == 1
       ensure_equal actual, expected
     end
+
+    def ten
+      input = 'Aloha! My name is Fynn.'
+      expected = 6
+      vowels = %w[a e i o u]
+      actual = input.downcase.chars.filter { |ch| vowels.include? ch }.length
+      ensure_equal actual, expected
+    end
+
+    def twelve
+      input = 'hello my name is fynn and this is kind of funny. Is this real?'
+      expected = 'is'
+      actual = input.downcase.split(' ').tally.min_by { |_, v| -v }.first
+      ensure_equal actual, expected
+    end
+
+    def sixteen
+      input = 'Hello my name is Fynn!!'
+      expected = 'Hello'
+      is_valid_char = ->(ch) { ch.match?(/[a-zA-Z ]/) }
+      actual = input.chars.filter(&is_valid_char).join.split(' ').group_by(&:length).max[1][0]
+      ensure_equal actual, expected
+    end
+
+    def seventeen
+      input = 4
+      expected = 10
+      actual = Array(1..input).reduce(:+)
+      ensure_equal actual, expected
+    end
+
+    def eighteen
+      input = 'Hello my name is Fynn'
+      expected = 'helo mynaisf'
+      actual = input.downcase.chars.to_set.join
+      ensure_equal actual, expected
+    end
+
+    def twenty_two
+      input = 4.step(1, -1)
+      expected = 24
+      actual = input.reduce(:*)
+      ensure_equal actual, expected
+    end
   end
 end
 
@@ -44,6 +88,12 @@ end
 Easy.one
 Easy.five
 Easy.nine
+Easy.ten
+Easy.twelve
+Easy.sixteen
+Easy.seventeen
+Easy.eighteen
+Easy.twenty_two
 Medium.eight
 
 # rubocop:enable Style/Documentation
