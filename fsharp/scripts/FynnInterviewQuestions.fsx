@@ -41,7 +41,7 @@ module Easy =
             |> (=) input
             |> ensureEqual expected
 
-    module Nine = // Anagram functions which checks whether or not two provided strings are the same.
+    module Nine = // Anagram checker
         let input = ["fynn"; "nyfn"]
         let expected = true
 
@@ -63,6 +63,13 @@ module Easy =
             |> _.Count
             |> (=) 1
             |> ensureEqual expected
+
+        let run'' () =
+            input
+            |> List.map (fun word -> word.ToCharArray() |> Array.sort )
+            |> List.distinct
+            |> _.Length
+            |> (=) 1
 
     module Ten = // Count vowels
         let input = "Aloha! My name is Fynn."
@@ -158,6 +165,7 @@ Easy.Three.run()
 Easy.Five.run()
 Easy.Nine.run()
 Easy.Nine.run'()
+Easy.Nine.run''()
 Easy.Ten.run()
 Easy.Twelve.run()
 Easy.Fifteen.run()
