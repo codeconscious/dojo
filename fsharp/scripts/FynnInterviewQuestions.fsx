@@ -76,8 +76,9 @@ module Easy =
         let expected = 6
 
         let run () =
+            let vowels = [| 'a'; 'e'; 'i'; 'o'; 'u' |]
             input.ToCharArray()
-            |> Array.where (fun x -> Array.contains (Char.ToLowerInvariant x) [| 'a'; 'e'; 'i'; 'o'; 'u' |])
+            |> Array.where (fun x -> Array.contains (Char.ToLowerInvariant x) vowels)
             |> _.Length
             |> ensureEqual expected
 
@@ -136,16 +137,15 @@ module Easy =
 
         let run () =
             [1..input]
-            |> List.fold (fun s n -> s + n) 0
+            |> List.fold (+) 0
             |> ensureEqual expected
 
-    module Eighteen = // Remove duplicated characters from a string.
+    module Eighteen = // Remove duplicate characters from a string.
         let input = "Hello my name is Fynn"
         let expected = "helo mynaisf"
 
         let run () =
-            input.ToLowerInvariant()
-            |> Array.ofSeq
+            input.ToLowerInvariant().ToCharArray()
             |> Array.distinct
             |> String
             |> ensureEqual expected
