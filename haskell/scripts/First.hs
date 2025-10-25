@@ -1,4 +1,5 @@
--- My first-ever Haskell, written on the morning of 2025-10-25!
+-- My first-ever Haskell script, written on the morning of 2025-10-25!
+-- I wrote it as a conversion of a small F# module I wrote.
 import Data.List (transpose, sort)
 import Data.Function ((&))
 
@@ -6,11 +7,12 @@ main :: IO ()
 main = do
   let input = [ [3, 4, 1, 2], [9, 4, 8, 2] ]
 
-  let output = sum $ map product $ transpose $ map sort $ input
-  print output
+  -- Application operator: right-associative function application
+  print $ sum $ map product $ transpose $ map sort input
 
-  let output' = input & map sort & transpose & map product & sum
-  print output'
+  -- Reverse application operator (from Data.Function): identical to the pipeline operator!
+  input & map sort & transpose & map product & sum & print
 
-  let calc = sum . map product . transpose . map sort
-  print (calc input)
+  -- Function composition operator: right-to-left function composition
+  let f = sum . map product . transpose . map sort
+  print $ f input
