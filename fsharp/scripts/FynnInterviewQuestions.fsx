@@ -183,14 +183,6 @@ module Medium =
         let expected = 70 // Abbreviated output, eliding the string.
 
         let run () =
-            let sortedInput = input |> List.map (fun list -> List.sort list)
-
-            [0..input[0].Length-1]
-            |> List.map (fun i -> sortedInput[0][i] * sortedInput[1][i])
-            |> List.sum
-            |> ensureEqual expected
-
-        let run' () =
             input
             |> List.map List.sort
             |> List.transpose
@@ -239,7 +231,7 @@ module Medium =
 
 Medium.Three.run()
 Medium.Eight.run()
-Medium.Eight.run'()
+Medium.Eight.run()
 Medium.Eleven.run()
 Medium.Seventeen.run()
 Medium.Seventeen.run'()
