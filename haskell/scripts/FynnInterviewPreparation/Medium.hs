@@ -1,7 +1,10 @@
-{-# OPTIONS_GHC -Wall -Werror #-}
+{-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Redundant lambda" #-}
+{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
+{-# OPTIONS_GHC -fwarn-name-shadowing #-}
 
--- Haskell doesn't support multiple or nested modules!
-module FynnInterviewQuestions.Medium where
+module Medium where
 
 import Data.List (transpose, sort)
 import Data.Function ((&))
@@ -16,6 +19,3 @@ eight = do
   let input = [ [3, 4, 1, 2], [9, 4, 8, 2] ]
       expected = (70 :: Integer)
   ensureEqual expected $ input & map sort & transpose & map product & sum
-
-main :: IO ()
-main = eight

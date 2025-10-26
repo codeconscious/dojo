@@ -1,13 +1,11 @@
--- Problems from https://github.com/0x66796e6e/interview-preparation/blob/master/markdown/easy/easy-js-questions.md!
-
 {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Redundant lambda" #-}
+{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
+{-# OPTIONS_GHC -fwarn-name-shadowing #-}
 
--- Haskell doesn't support multiple or nested modules!
-module FynnInterviewQuestions.Easy where
+module Easy where
 
--- import Data.List (transpose, sort)
 import Data.Function ((&))
 import qualified Control.Monad
 
@@ -38,6 +36,3 @@ five = do
     let input = "abccba"
         expected = True
     input == reverse input & ensureEqualTo expected
-
-main :: IO ()
-main = sequence_ [one, two, three, five]
