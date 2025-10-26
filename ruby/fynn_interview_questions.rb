@@ -31,8 +31,7 @@ class Easy
     def ten
       input = 'Aloha! My name is Fynn.'
       expected = 6
-      vowels = %w[a e i o u]
-      actual = input.downcase.chars.filter { |ch| vowels.include? ch }.length
+      actual = input.downcase.chars.filter { |ch| %w[a e i o u].include? ch }.length
       ensure_equal actual, expected
     end
 
