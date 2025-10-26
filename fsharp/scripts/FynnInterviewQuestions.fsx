@@ -137,7 +137,7 @@ module Easy =
 
         let run () =
             [1..input]
-            |> List.fold (+) 0
+            |> List.reduce (+)
             |> ensureEqual expected
 
     module Eighteen = // Remove duplicate characters from a string.
