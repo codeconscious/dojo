@@ -17,9 +17,9 @@ ensureEqualTo actual expected =
 
 one :: IO ()
 one = do
-  let input = ["this", "is", "an", "array"]
-  let expected = [4, 2, 2, 5]
-  map length input & ensureEqualTo expected
+    let input = ["this", "is", "an", "array"]
+    let expected = [4, 2, 2, 5]
+    map length input & ensureEqualTo expected
 
 two :: IO ()
 two = do
