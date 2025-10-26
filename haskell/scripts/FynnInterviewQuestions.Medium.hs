@@ -13,7 +13,7 @@ ensureEqual actual expected =
 
 eight :: IO ()
 eight = do
-  let input = [ [3, 4, 1, 2], [9, 4, 8, 4] ]
+  let input = [ [3, 4, 1, 2], [9, 4, 8, 2] ]
       expected = (70 :: Integer)
   ensureEqual expected $ input & map sort & transpose & map product & sum
 
