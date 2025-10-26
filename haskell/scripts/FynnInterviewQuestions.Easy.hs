@@ -18,13 +18,13 @@ ensureEqualTo actual expected =
 one :: IO ()
 one = do
     let input = ["this", "is", "an", "array"]
-    let expected = [4, 2, 2, 5]
+        expected = [4, 2, 2, 5]
     map length input & ensureEqualTo expected
 
 two :: IO ()
 two = do
     let input = [1, 2, 3, 4, 5]
-    let expected = (15 :: Int)
+        expected = (15 :: Int)
     sum input & ensureEqualTo expected
 
 three :: IO ()
@@ -36,7 +36,7 @@ three = do
 five :: IO ()
 five = do
     let input = "abccba"
-    let expected = True
+        expected = True
     input == reverse input & ensureEqualTo expected
 
 main :: IO ()
