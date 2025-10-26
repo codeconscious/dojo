@@ -8,10 +8,14 @@ module Easy where
 
 import Data.Function ((&))
 import qualified Control.Monad
+import Data.Maybe (mapMaybe)
 
+-- TODO: Export to a new utility module.
 ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
-ensureEqualTo actual expected =
-  Control.Monad.when (actual /= expected) $ putStrLn $ "NOT EQUAL! Actual: " ++ show actual ++ " / Expected: " ++ show expected
+ensureEqualTo expected actual =
+  Control.Monad.when
+    (expected /= actual)
+    $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
 one :: IO ()
 one = do
@@ -36,3 +40,13 @@ five = do
     let input = "abccba"
         expected = True
     input == reverse input & ensureEqualTo expected
+
+eight :: IO ()
+eight = do
+    let input = (15 :: Int)
+        expected = "fizz buzz fizz fizz buzz fizz fizzbuzz" -- Fixed incorrect output from the source.
+        fizzbuzz i | mod i 15 == 0 = Just "fizzbuzz"
+                   | mod i 5  == 0 = Just "buzz"
+                   | mod i 3  == 0 = Just "fizz"
+                   | otherwise = Nothing
+    [1..input] & mapMaybe fizzbuzz & unwords & ensureEqualTo expected

@@ -7,10 +7,10 @@ import qualified Easy
 import qualified Medium
 
 ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
-ensureEqualTo actual expected =
+ensureEqualTo expected actual =
   Control.Monad.when
-    (actual /= expected)
-    $ putStrLn $ "NOT EQUAL! Actual: " ++ show actual ++ " / Expected: " ++ show expected
+    (expected /= actual)
+    $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
 main :: IO ()
 main = sequence_ [
@@ -18,5 +18,6 @@ main = sequence_ [
     Easy.two,
     Easy.three,
     Easy.five,
+    Easy.eight,
     Medium.eight
   ]
