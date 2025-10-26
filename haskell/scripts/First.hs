@@ -11,7 +11,7 @@ main = do
   print $ sum $ map product $ transpose $ map sort input
 
   -- Reverse application operator (from Data.Function): identical to the pipeline operator!
-  input & map sort & transpose & map product & sum & print
+  print $ input & map sort & transpose & map product & sum
 
   -- Function composition operator: right-to-left function composition
   let f = sum . map product . transpose . map sort
