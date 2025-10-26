@@ -24,7 +24,7 @@ one = do
 two :: IO ()
 two = do
     let input = [1, 2, 3, 4, 5]
-    let expected = (15 :: Integer)
+    let expected = (15 :: Int)
     sum input & ensureEqualTo expected
 
 three :: IO ()
