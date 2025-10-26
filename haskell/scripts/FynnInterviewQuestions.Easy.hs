@@ -1,4 +1,8 @@
-{-# OPTIONS_GHC -Wall -Werror #-}
+-- Problems from https://github.com/0x66796e6e/interview-preparation/blob/master/markdown/easy/easy-js-questions.md!
+
+{-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Redundant lambda" #-}
 
 -- Haskell doesn't support multiple or nested modules!
 module FynnInterviewQuestions.Easy where
@@ -23,7 +27,17 @@ two = do
     let expected = (15 :: Integer)
     sum input & ensureEqualTo expected
 
+three :: IO ()
+three = do
+    let expected = "Hello, Candidate!"
+    let greeter greeting = \candidate -> greeting ++ ", " ++ candidate ++ "!" -- "Redundant lambda"
+    greeter "Hello" "Candidate" & ensureEqualTo expected
+
+five :: IO ()
+five = do
+    let input = "abccba"
+    let expected = True
+    input == reverse input & ensureEqualTo expected
+
 main :: IO ()
-main = do
-    one
-    two
+main = sequence_ [one, two, three, five]
