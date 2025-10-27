@@ -7,17 +7,10 @@
 module Easy where
 
 import Data.Function ((&))
-import qualified Control.Monad
 import Data.Maybe (mapMaybe)
 import Data.List
 import Data.Char (toLower)
-
--- TODO: Export to a new utility module.
-ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
-ensureEqualTo expected actual =
-  Control.Monad.when
-    (expected /= actual)
-    $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
+import Utilities
 
 one :: IO ()
 one = do

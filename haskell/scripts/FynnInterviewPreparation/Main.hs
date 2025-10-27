@@ -2,15 +2,8 @@
 
 module Main where
 
-import qualified Control.Monad
 import qualified Easy
 import qualified Medium
-
-ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
-ensureEqualTo expected actual =
-  Control.Monad.when
-    (expected /= actual)
-    $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
 main :: IO ()
 main = sequence_ [
