@@ -1,7 +1,10 @@
 (* Selected JavaScript problems in F#. *)
 
+#r "nuget:  FSharpPlus"
+
 open System
 open System.Text
+open FSharpPlus.Operators
 
 let ensureEqual expected actual  =
     if actual <> expected
@@ -15,7 +18,7 @@ module Easy =
 
         let run () =
             input
-            |> List.map _.Length
+            |> map _.Length
             |> ensureEqual expected
 
     module Two = // Sum an array of numbers
@@ -36,7 +39,7 @@ module Easy =
 
         let run () =
             input.ToCharArray()
-            |> Array.rev
+            |> rev
             |> String
             |> (=) input
             |> ensureEqual expected
@@ -50,7 +53,7 @@ module Easy =
             |> List.map (fun x ->
                 x.ToCharArray()
                 |> Array.countBy id
-                |> Array.sort)
+                |> sort)
             |> Set.ofList
             |> _.Count
             |> (=) 1
@@ -58,7 +61,7 @@ module Easy =
 
         let run' () =
             input
-            |> List.map (fun x -> x.ToCharArray() |> Array.sort)
+            |> map (fun x -> x.ToCharArray() |> sort)
             |> Set.ofList
             |> _.Count
             |> (=) 1
@@ -66,8 +69,8 @@ module Easy =
 
         let run'' () =
             input
-            |> List.map (fun word -> word.ToCharArray() |> Array.sort )
-            |> List.distinct
+            |> map (fun word -> word.ToCharArray() |> sort )
+            |> distinct
             |> _.Length
             |> (=) 1
 
@@ -89,8 +92,8 @@ module Easy =
         let run () =
             input.Split(' ')
             |> Array.countBy id
-            |> Array.sortByDescending snd
-            |> Array.head
+            |> sortByDescending snd
+            |> head
             |> fst
             |> ensureEqual expected
 
@@ -110,13 +113,13 @@ module Easy =
 
             let stripInvalidChars (word: string) =
                 word.ToCharArray()
-                |> Array.filter isLetter
+                |> filter isLetter
                 |> String
 
             input.Split(' ')
-            |> Array.map stripInvalidChars
+            |> map stripInvalidChars
             |> Array.sortByDescending _.Length
-            |> Array.head
+            |> head
             |> ensureEqual expected
 
         let run' () =
@@ -124,11 +127,11 @@ module Easy =
             let isValidChar ch = List.contains ch validChars
 
             input.ToCharArray()
-            |> Array.filter isValidChar
+            |> filter isValidChar
             |> String
             |> fun x -> x.Split(' ')
             |> Array.sortByDescending _.Length
-            |> Array.head
+            |> head
             |> ensureEqual expected
 
     module Seventeen = // Write a function that accepts a number N as argument and adds all values from N to 1.
@@ -146,7 +149,7 @@ module Easy =
 
         let run () =
             input.ToLowerInvariant().ToCharArray()
-            |> Array.distinct
+            |> distinct
             |> String
             |> ensureEqual expected
 
@@ -182,7 +185,7 @@ module Medium =
 
         let run () =
             input.Split ' '
-            |> Array.map (fun word -> word.ToCharArray() |> Array.rev |> String)
+            |> map (fun word -> word.ToCharArray() |> rev |> String)
             |> String.concat " "
             |> ensureEqual expected
 
@@ -192,10 +195,10 @@ module Medium =
 
         let run () =
             input
-            |> List.map List.sort
-            |> List.transpose
-            |> List.map (List.reduce (*))
-            |> List.sum
+            |> map sort
+            |> transpose
+            |> map (List.reduce (*))
+            |> sum
             |> ensureEqual expected
 
     module Eleven = // Convert a string to "Jaden Case" (TIL: Named after Will Smith's son...)
