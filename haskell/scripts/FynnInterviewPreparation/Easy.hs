@@ -34,7 +34,7 @@ two = do
 three :: IO ()
 three = do
     let expected = "Hello, Candidate!"
-    let greeter greeting = \candidate -> greeting ++ ", " ++ candidate ++ "!" -- "Redundant lambda"
+        greeter greeting = \candidate -> greeting ++ ", " ++ candidate ++ "!" -- "Redundant lambda"
     greeter "Hello" "Candidate" & ensureEqualTo expected
 
 five :: IO ()
@@ -56,12 +56,19 @@ eight = do
 nine :: IO ()
 nine = do
     let input = ["fynn", "nyfn"]
-    let expected = True
+        expected = True
     input & map sort & nub & length & (==) 1 & ensureEqualTo expected
 
 ten :: IO ()
 ten = do
     let input = "Aloha! My name is Fynn."
-    let expected = 6
-    let isVowel ch = ch `elem` ['a', 'e', 'i', 'o', 'u']
+        expected = 6
+        isVowel ch = ch `elem` ['a', 'e', 'i', 'o', 'u']
     input & map toLower & filter isVowel & length & ensureEqualTo expected
+
+eleven :: IO ()
+eleven = do
+    let input = ["my", "hello", "fynn", "name", "is"]
+        target = "fynn"
+        expected = True
+    target `elem` input & ensureEqualTo expected

@@ -21,5 +21,6 @@ main = sequence_ [
     Easy.eight,
     Easy.nine,
     Easy.ten,
+    Easy.eleven,
     Medium.eight
   ]
