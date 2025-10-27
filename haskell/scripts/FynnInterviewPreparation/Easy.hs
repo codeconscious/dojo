@@ -10,6 +10,7 @@ import Data.Function ((&))
 import qualified Control.Monad
 import Data.Maybe (mapMaybe)
 import Data.List
+import Data.Char (toLower)
 
 -- TODO: Export to a new utility module.
 ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
@@ -57,3 +58,10 @@ nine = do
     let input = ["fynn", "nyfn"]
     let expected = True
     input & map sort & nub & length & (==) 1 & ensureEqualTo expected
+
+ten :: IO ()
+ten = do
+    let input = "Aloha! My name is Fynn."
+    let expected = 6
+    let isVowel ch = ch `elem` ['a', 'e', 'i', 'o', 'u']
+    input & map toLower & filter isVowel & length & ensureEqualTo expected
