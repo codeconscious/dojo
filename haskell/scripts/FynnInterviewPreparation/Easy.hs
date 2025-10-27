@@ -9,6 +9,7 @@ module Easy where
 import Data.Function ((&))
 import qualified Control.Monad
 import Data.Maybe (mapMaybe)
+import Data.List
 
 -- TODO: Export to a new utility module.
 ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
@@ -50,3 +51,9 @@ eight = do
                    | mod i 3  == 0 = Just "fizz"
                    | otherwise = Nothing
     [1..input] & mapMaybe fizzbuzz & unwords & ensureEqualTo expected
+
+nine :: IO ()
+nine = do
+    let input = ["fynn", "nyfn"]
+    let expected = True
+    input & map sort & nub & length & (==) 1 & ensureEqualTo expected
