@@ -10,6 +10,7 @@ import Data.Function ((&))
 import Data.Maybe (mapMaybe)
 import Data.List
 import Data.Char (toLower)
+import Data.Ord
 import Utilities
 
 one :: IO ()
@@ -66,3 +67,17 @@ eleven =
         input = ["my", "hello", "fynn", "name", "is"]
         target = "fynn"
         expected = True
+
+twelve :: IO ()
+twelve =
+    input
+        & map toLower
+        & words
+        & sort
+        & group
+        & maximumBy (comparing length)
+        & head
+        & ensureEqualTo expected
+    where
+        input = "hello my name is fynn and this is kind of funny. Is this real?"
+        expected = "is"
