@@ -129,7 +129,7 @@ module Easy =
             input.ToCharArray()
             |> filter isValidChar
             |> String
-            |> fun x -> x.Split(' ')
+            |> _.Split(' ')
             |> Array.sortByDescending _.Length
             |> head
             |> ensureEqual expected
