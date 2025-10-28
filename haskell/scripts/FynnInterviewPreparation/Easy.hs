@@ -70,14 +70,8 @@ eleven =
 
 twelve :: IO ()
 twelve =
-    input
-        & map toLower
-        & words
-        & sort
-        & group
-        & maximumBy (comparing length)
-        & head
-        & ensureEqualTo expected
+    input & map toLower & words & mostFrequent & ensureEqualTo expected
     where
         input = "hello my name is fynn and this is kind of funny. Is this real?"
         expected = "is"
+        mostFrequent x = x & sort & group & maximumBy (comparing length) & head
