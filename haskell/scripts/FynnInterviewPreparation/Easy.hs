@@ -60,8 +60,9 @@ ten = do
     input & map toLower & filter isVowel & length & ensureEqualTo expected
 
 eleven :: IO ()
-eleven = do
-    let input = ["my", "hello", "fynn", "name", "is"]
+eleven =
+    target `elem` input & ensureEqualTo expected
+    where
+        input = ["my", "hello", "fynn", "name", "is"]
         target = "fynn"
         expected = True
-    target `elem` input & ensureEqualTo expected
