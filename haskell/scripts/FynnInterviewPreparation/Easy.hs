@@ -72,6 +72,6 @@ twelve :: IO ()
 twelve =
     input & map toLower & words & mostFrequent & ensureEqualTo expected
     where
-        input = "hello my name is fynn and this is kind of funny. Is this real?"
+        input = "hello my name is fynn and this is kind of funny. Is this real?" -- 句読点は無視してもOK
         expected = "is"
         mostFrequent x = x & sort & group & maximumBy (comparing length) & head
