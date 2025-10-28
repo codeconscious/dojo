@@ -75,3 +75,16 @@ twelve =
         input = "hello my name is fynn and this is kind of funny. Is this real?" -- 句読点は無視してもOK
         expected = "is"
         mostFrequent x = x & sort & group & maximumBy (comparing length) & head
+
+fourteen :: IO ()
+fourteen =
+    input & nub & ensureEqualTo expected
+    where
+        input = [1 :: Int,2,2,3,4,3,2]
+        expected = [1,2,3,4]
+
+fifteen :: IO ()
+fifteen = do
+    let input = [2, 3, 4]
+        expected = 24 :: Int
+    foldl' (*) 1 input & ensureEqualTo expected
