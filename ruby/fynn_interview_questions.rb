@@ -38,7 +38,7 @@ class Easy
     def twelve
       input = 'hello my name is fynn and this is kind of funny. Is this real?'
       expected = 'is'
-      actual = input.downcase.split(' ').tally.min_by { |_, v| -v }.first
+      actual = input.downcase.split(' ').tally.max_by { |_, v| v }.first
       ensure_equal actual, expected
     end
 
