@@ -75,6 +75,13 @@ end
 
 class Medium
   class << self
+    def three
+      input = 'Hello my name is Fynn'
+      expected = 'olleH ym eman si nnyF'
+      actual = input.split(' ').map(&:rev).join(' ')
+      ensure_equal actual, expected
+    end
+
     def eight
       input = [[3, 4, 1, 2], [9, 4, 8, 2]]
       expected = 70 # Abbreviated output, eliding the text output in the original problem.
@@ -93,6 +100,7 @@ Easy.sixteen
 Easy.seventeen
 Easy.eighteen
 Easy.twenty_two
+Medium.three
 Medium.eight
 
 # rubocop:enable Style/Documentation
