@@ -179,6 +179,18 @@ Easy.Eighteen.run()
 Easy.TwentyTwo.run()
 
 module Medium =
+
+    module One = // Return the entry of the Fibonacci sequence for the provided number.
+        let input = 10
+        let expected = 55 // I suspect the original expectation, 34, is incorrect.
+
+        let rec fibonacci = function
+            | i when i < 2 -> i
+            | i -> fibonacci (i - 1) + fibonacci (i - 2)
+
+        let run () =
+            fibonacci input |> ensureEqual expected
+
     module Three = // Reverse each word in a string.
         let input = "Hello my name is Fynn"
         let expected = "olleH ym eman si nnyF"
@@ -240,6 +252,7 @@ module Medium =
 
             input |> StringBuilder |> check 10 |> ensureEqual expected
 
+Medium.One.run()
 Medium.Three.run()
 Medium.Eight.run()
 Medium.Eight.run()
