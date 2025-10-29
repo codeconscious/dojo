@@ -88,3 +88,11 @@ fifteen = do
     let input = [2, 3, 4]
         expected = 24 :: Int
     foldl' (*) 1 input & ensureEqualTo expected
+
+sixteen :: IO ()
+sixteen = do
+    let input = "Hello my name is Fynn!!"
+        expected = "Hello"
+        isAllowedChar ch = ch `elem` concat (['a'..'z'] : ['A'..'Z'] : [[' ']])
+    input & filter isAllowedChar & words & maximumBy (comparing length) & ensureEqualTo expected
+    -- ensureEqualTo expected $ maximumBy (comparing length) $ words $ filter isAllowedChar input
