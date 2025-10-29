@@ -101,7 +101,7 @@ module Easy =
         let input = [2; 3; 4]
         let expected = 24
 
-        let run () = input |> List.reduce (*) |> ensureEqual expected
+        let run () = input |> fold (*) 1 |> ensureEqual expected
 
     module Sixteen = // Return the longest word in a given string.
         let input = "Hello my name is Fynn!!"
@@ -140,7 +140,7 @@ module Easy =
 
         let run () =
             [1..input]
-            |> List.reduce (+)
+            |> fold (+) 0
             |> ensureEqual expected
 
     module Eighteen = // Remove duplicate characters from a string.
@@ -159,7 +159,7 @@ module Easy =
 
         let run () =
             input
-            |> List.reduce (*)
+            |> fold (*) 1
             |> ensureEqual expected
 
 Easy.One.run()
@@ -209,7 +209,7 @@ module Medium =
             input
             |> map sort
             |> transpose
-            |> map (List.reduce (*))
+            |> map (fold (*) 1)
             |> sum
             |> ensureEqual expected
 
