@@ -75,10 +75,20 @@ end
 
 class Medium
   class << self
+    def one
+      input = 10
+      expected = 55
+
+      # I admittedly got some help for this one...
+      fibonacci = ->(n) { lambda { |x| x < 2 ? x : fibonacci.call(x - 1) + fibonacci.call(x - 2) }.call(n) }
+      actual = fibonacci.call input
+      ensure_equal actual, expected
+    end
+
     def three
       input = 'Hello my name is Fynn'
       expected = 'olleH ym eman si nnyF'
-      actual = input.split(' ').map(&:rev).join(' ')
+      actual = input.split(' ').map(&:reverse).join(' ')
       ensure_equal actual, expected
     end
 
@@ -100,6 +110,7 @@ Easy.sixteen
 Easy.seventeen
 Easy.eighteen
 Easy.twenty_two
+Medium.one
 Medium.three
 Medium.eight
 
