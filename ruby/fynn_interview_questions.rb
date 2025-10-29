@@ -79,8 +79,9 @@ class Medium
       input = 10
       expected = 55
 
-      # I admittedly got some help for this one...
-      fibonacci = ->(n) { lambda { |x| x < 2 ? x : fibonacci.call(x - 1) + fibonacci.call(x - 2) }.call(n) }
+      # I admittedly got some help for this one as I was unsure how to set up a recursive lambda...
+      fibonacci = ->(n) { ->(x) { x < 2 ? x : fibonacci.call(x - 1) + fibonacci.call(x - 2) }.call(n) }
+
       actual = fibonacci.call input
       ensure_equal actual, expected
     end
