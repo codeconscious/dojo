@@ -319,6 +319,23 @@ module Medium =
             |> List.chunkBySize batchSize
             |> ensureEqual expected
 
+    module Twenty = // How many steps needed to reach the Kaprekar's constant?
+        let input = 1313
+        let expected = 6
+        let kaprekarsConstant = 6174
+
+        let rec process' count (i: int) = // Inefficient, but sufficient.
+            let chars = i.ToString().ToCharArray()
+            let a, b = chars |> Array.sort                |> String |> int,
+                       chars |> Array.sortByDescending id |> String |> int
+            let difference = if a > b then a - b else b - a
+            if difference = kaprekarsConstant
+            then count
+            else process' (count + 1) difference
+
+        let run () =
+            input |> process' 1 |> ensureEqual expected
+
 Medium.One.run()
 Medium.Two.run()
 Medium.Two.run'()
@@ -332,3 +349,4 @@ Medium.Seventeen.run()
 Medium.Seventeen.run'()
 Medium.Eighteen.run()
 Medium.Nineteen.run()
+Medium.Twenty.run()
