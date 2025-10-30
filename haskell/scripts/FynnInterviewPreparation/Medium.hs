@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-} -- Suppress such warnings.
 {-# HLINT ignore "Redundant lambda" #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 {-# OPTIONS_GHC -fwarn-name-shadowing #-}
