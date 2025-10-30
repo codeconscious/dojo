@@ -191,6 +191,32 @@ module Medium =
         let run () =
             fibonacci input |> ensureEqual expected
 
+    module Two =
+        let input = [| 1; 3; 4; 6; 8; 9 |], 3
+        let expected = "found"
+
+        let run () =
+            let rec binarySearch target arr =
+                match Array.length arr with
+                | 0 -> None
+                | i ->
+                    let middle = i / 2
+                    match sign <| compare target arr[middle] with
+                    | 0  -> Some target
+                    | -1 -> binarySearch target arr[..middle-1]
+                    | _  -> binarySearch target arr[middle+1..]
+
+            binarySearch (snd input) (fst input)
+            |> function None -> "not found" | Some _ -> "found"
+            |> ensureEqual expected
+
+        let run' () =
+            Array.BinarySearch(fst input, snd input)
+            |> function
+            | i when i < 0 -> "not found"
+            | _ -> "found"
+            |> ensureEqual expected
+
     module Three = // Reverse each word in a string.
         let input = "Hello my name is Fynn"
         let expected = "olleH ym eman si nnyF"
@@ -211,6 +237,26 @@ module Medium =
             |> transpose
             |> map (fold (*) 1)
             |> sum
+            |> ensureEqual expected
+
+    module Nine = // Rotate an array to the left a certain amount of steps.
+        let input = [1; 2; 3; 4], 2
+        let expected = [3; 4; 1; 2]
+
+        let run () =
+            fst input
+            |> List.splitAt (snd input)
+            |> fun (x, y) -> y @ x
+            |> ensureEqual expected
+
+    module Ten = // Rotate an array to the right a certain amount of steps.
+        let lst, rotateN = [1; 2; 3; 4], 3
+        let expected = [2; 3; 4; 1]
+
+        let run () = // This is a naive implementation.
+            lst
+            |> List.splitAt (lst.Length - rotateN)
+            |> fun (x, y) -> y @ x
             |> ensureEqual expected
 
     module Eleven = // Convert a string to "Jaden Case" (TIL: Named after Will Smith's son...)
@@ -252,10 +298,37 @@ module Medium =
 
             input |> StringBuilder |> check 10 |> ensureEqual expected
 
+    module Eighteen = // Find the most common letter in a string.
+        let input = "Not everyone naps, Fynn"
+        let expected = 'n'
+
+        let run () =
+            input.ToLowerInvariant().ToCharArray()
+            |> Array.countBy id
+            |> Array.sortByDescending snd
+            |> Array.head
+            |> fst
+            |> ensureEqual expected
+
+    module Nineteen = // Divide an array in chunks of a certain length.
+        let lst, batchSize = [1..6], 2
+        let expected = [[1; 2]; [3; 4]; [5; 6]]
+
+        let run () =
+            lst
+            |> List.chunkBySize batchSize
+            |> ensureEqual expected
+
 Medium.One.run()
+Medium.Two.run()
+Medium.Two.run'()
 Medium.Three.run()
 Medium.Eight.run()
 Medium.Eight.run()
+Medium.Nine.run()
+Medium.Ten.run()
 Medium.Eleven.run()
 Medium.Seventeen.run()
 Medium.Seventeen.run'()
+Medium.Eighteen.run()
+Medium.Nineteen.run()
