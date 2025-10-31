@@ -100,11 +100,23 @@ sixteen = do
 seventeen :: IO ()
 seventeen = do
     let input = (4 :: Int)
-    let expected = (10 :: Int)
+        expected = (10 :: Int)
     [input, input-1 .. 1] & foldl' (+) 0 & ensureEqualTo expected
 
 eighteen :: IO ()
 eighteen = do
     let input = "Hello my name is Fynn"
-    let expected = "helo mynaisf"
+        expected = "helo mynaisf"
     input & map toLower & nub & ensureEqualTo expected
+
+twentyOne :: IO ()
+twentyOne =
+    reverse input & ensureEqualTo expected
+    where input = "Fynn"; expected = "nnyF"
+
+twentyTwo :: IO ()
+twentyTwo =
+    [input,input-1..1] & foldl' (*) 1 & ensureEqualTo expected
+    where
+        input = 4 :: Int
+        expected = 24
