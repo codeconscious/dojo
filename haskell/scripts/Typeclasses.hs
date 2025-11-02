@@ -19,13 +19,18 @@ instance Squareable (Int, Int) where
 instance Squareable String where
     square a = a ++ a
 
-class Prefixable a where
+class Modifiable a where
     prefix :: a -> a -> a
     suffix :: a -> a -> a
 
-instance Prefixable String where
+instance Modifiable String where
     prefix a p = p ++ ": " ++ a
     suffix a s = a ++ " (" ++ s ++ ")"
+
+newtype JNum = JNum Int
+
+instance Show JNum where
+    show (JNum a) = show a ++ " is a great number." -- "はすばらしい数字です。"
 
 main :: IO ()
 main = do
@@ -34,3 +39,4 @@ main = do
     print $ square "hello"
     print $ prefix "hello" "BEHOLD"
     print $ suffix "hello" "BEHOLD"
+    print $ show $ JNum 10
