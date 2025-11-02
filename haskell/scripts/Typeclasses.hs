@@ -40,3 +40,4 @@ main = do
     print $ prefix "BEHOLD" "hello"
     print $ suffix "BEHOLD" "hello"
     print $ show $ JNum 10
+    -- getLine >>= \line -> putStrLn ("You entered \"" ++ line ++"\"")
