@@ -24,8 +24,8 @@ class Modifiable a where
     suffix :: a -> a -> a
 
 instance Modifiable String where
-    prefix a p = p ++ ": " ++ a
-    suffix a s = a ++ " (" ++ s ++ ")"
+    prefix p a = p ++ ": " ++ a
+    suffix s a = a ++ " (" ++ s ++ ")"
 
 newtype JNum = JNum Int
 
@@ -37,6 +37,6 @@ main = do
     print $ square (6 :: Int)
     print $ square (3:: Int, 4:: Int)
     print $ square "hello"
-    print $ prefix "hello" "BEHOLD"
-    print $ suffix "hello" "BEHOLD"
+    print $ prefix "BEHOLD" "hello"
+    print $ suffix "BEHOLD" "hello"
     print $ show $ JNum 10
