@@ -30,12 +30,12 @@ instance Modifiable String where
 newtype JNum = JNum Int
 
 instance Show JNum where
-    show (JNum a) = show a ++ " is a great number." -- "はすばらしい数字です。"
+    show (JNum a) = show a ++ " is such a lovely number." -- "はすばらしい数字です。"
 
 main :: IO ()
 main = do
     print $ square (6 :: Int)
-    print $ square (3:: Int, 4:: Int)
+    print $ square (3 :: Int, 4 :: Int)
     print $ square "hello"
     print $ prefix "BEHOLD" "hello"
     print $ suffix "BEHOLD" "hello"
