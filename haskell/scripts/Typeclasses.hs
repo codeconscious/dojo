@@ -30,7 +30,16 @@ instance Modifiable String where
 newtype JNum = JNum Int
 
 instance Show JNum where
-    show (JNum a) = show a ++ " is such a lovely number." -- "はすばらしい数字です。"
+    show (JNum a) = show a ++ " is such a lovely number."
+
+class Converter a b where
+    convert :: a -> b
+
+instance Converter Int String where
+    convert = show -- Original: convert a = show a
+
+instance Converter Int [Int] where
+    convert x = [x, x, x]
 
 main :: IO ()
 main = do
@@ -40,4 +49,6 @@ main = do
     print $ prefix "BEHOLD" "hello"
     print $ suffix "BEHOLD" "hello"
     print $ show $ JNum 10
+    print (convert (5 :: Int) :: String)
+    print (convert (5 :: Int) :: [Int])
     -- getLine >>= \line -> putStrLn ("You entered \"" ++ line ++"\"")
