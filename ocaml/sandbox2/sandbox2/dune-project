@@ -1,0 +1,17 @@
+(lang dune 3.17)
+
+(name sandbox2)
+
+(generate_opam_files true)
+
+(documentation https://url/to/documentation)
+
+(package
+ (name sandbox2)
+ (synopsis "Practicing OCaml")
+ (description "A small sandbox in which to practice OCaml")
+ (depends ocaml)
+ (tags
+  ("ocaml" "practice" "dojo" "sandbox")))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html

@@ -1,0 +1,4 @@
+(executable
+ (public_name sandbox2)
+ (name main)
+ (libraries sandbox2))
