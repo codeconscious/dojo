@@ -19,6 +19,12 @@ instance Squareable (Int, Int) where
 instance Squareable String where
     square a = a ++ a
 
+newtype Id = Id Int
+    deriving (Show)
+
+instance Squareable Id where
+    square (Id id') = Id (id' * id')
+
 class Modifiable a where
     prefix :: a -> a -> a
     suffix :: a -> a -> a
@@ -46,6 +52,7 @@ main = do
     print $ square (6 :: Int)
     print $ square (3 :: Int, 4 :: Int)
     print $ square "hello"
+    print $ square (Id (40 :: Int))
     print $ prefix "BEHOLD" "hello"
     print $ suffix "BEHOLD" "hello"
     print $ show $ JNum 10
