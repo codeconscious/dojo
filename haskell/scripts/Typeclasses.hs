@@ -25,6 +25,9 @@ newtype Id = Id Int
 instance Squareable Id where
     square (Id id') = Id (id' * id')
 
+printSquareable :: (Show a, Squareable a) => a -> IO ()
+printSquareable s = print $ "[Squareable] " ++ show (square s)
+
 class Modifiable a where
     prefix :: a -> a -> a
     suffix :: a -> a -> a
@@ -49,10 +52,10 @@ instance Converter Int [Int] where
 
 main :: IO ()
 main = do
-    print $ square (6 :: Int)
-    print $ square (3 :: Int, 4 :: Int)
-    print $ square "hello"
-    print $ square (Id (40 :: Int))
+    printSquareable (6 :: Int)
+    printSquareable (3 :: Int, 4 :: Int)
+    printSquareable "hello"
+    printSquareable (Id (40 :: Int))
     print $ prefix "BEHOLD" "hello"
     print $ suffix "BEHOLD" "hello"
     print $ show $ JNum 10
