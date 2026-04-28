@@ -1,7 +1,10 @@
+let (<|) f x = f x
+
+let space = ' '
+
 module Styles = struct
     let letters = List.init 26 (fun i -> Char.chr (Char.code 'a' + i)) (* [ 'a' .. 'z' ] *)
     let numbers = List.init 10 (fun i -> Char.chr (Char.code '0' + i))
-    let space = ' '
 
     type style = {
         name: string;
@@ -192,120 +195,115 @@ module Styles = struct
 end
 
 module ArgValidation = struct
+    (* open Result.Let_syntax *)
     open Styles
 
     type user_args = { style: string; text: string }
 
     let validate =
         let supportedStyleNames =
-            String.Join(
-                space,
-                styles |> List.map _.Name
-            )
+            String.concat " " (styles |> List.map (fun s -> s.name)) in
+
 
         let rawArgs =
-            fsi.CommandLineArgs
-            |> Array.toList
-            |> List.tail // The head contains the script filename.
+            Sys.argv
+            |> Array.to_list
+            |> List.tl (* The head contains the script filename. *) in
 
         let argCount (rawArgs:string list) =
             let errorText =
-                String.Join(
-                    Environment.NewLine,
+                String.concat
+                    "\n"
                     ["Pass in (1) a style name and (2) a string containing only supported characters for that style.";
-                    $"Supported styles: {supportedStyleNames}"]
-                )
+                     Printf.sprintf "Supported styles: %s" supportedStyleNames] in
 
-            match rawArgs.Length with
+            match List.length rawArgs with
             | l when l = 2 ->
-                Ok <|
-                {
-                    Style = rawArgs.Head.ToLowerInvariant();
-                    Text = rawArgs[1].ToLowerInvariant()
+                Ok {
+                    style = rawArgs |> List.hd |> String.lowercase_ascii;
+                    text = List.nth rawArgs 1 |> String.lowercase_ascii
                 }
-            | _ -> Error errorText
+            | _ -> Error errorText in
 
         let styleName args =
             let errorText =
-                String.Join(
-                    Environment.NewLine,
-                    [$"Style \"{args.Style}\" not found.";
-                    $"Supported styles: {supportedStyleNames}"]
-                )
+                String.concat
+                    "\n"
+                    [Printf.sprintf "Style \"%s\" not found." args.style;
+                     Printf.sprintf "Supported styles: %s" supportedStyleNames] in
 
-            match styleNames |> List.contains args.Style with
+            match styleNames |> List.mem args.style with
             | true -> Ok args
-            | false -> Error errorText
+            | false -> Error errorText in
 
         let inputLength args =
-            match args.Text.Length with
+            match String.length args.text with
             | 0 -> Error "You must enter text to be converted."
-            | _ -> Ok args
+            | _ -> Ok args in
 
         let inputChars args =
             let style =
                 styles
-                |> List.filter (fun s -> s.name = args.Style);
-                |> List.head
+                |> List.filter (fun s -> s.name = args.style)
+                |> List.hd in
 
-            let ensureVisibleChar ch =
-                if ch = space then "<SPACE>" else $"{%c}" c
+            let ensure_visible_char ch =
+                if ch = space then "<SPACE>" else String.make 1 ch in
 
             let invalidChars =
-                args.Text
-                |> Seq.toList
-                |> List.filter (fun ch -> not <| List.contains ch style.SupportedChars)
-                |> List.map ensureVisibleChar
+                args.text
+                |> String.to_seq
+                |> List.of_seq
+                |> List.filter (fun ch -> not <| List.mem ch style.supported_chars)
+                |> List.map ensure_visible_char in
 
             let error style =
-                let supported_chars style =
-                    let chars =
-                        style.SupportedChars
-                        |> List.map ensureVisibleChar
-                    String.Join(space, chars)
+              let supported_chars style =
+                let chars = style.supported_chars |> List.map ensure_visible_char in
+                String.concat " " chars in
 
-                String.Join(
-                    Environment.NewLine,
-                    [$"Invalid characters found for style \"{style.Name}\": {String.Join(space, invalidChars)}";
-                    $"Supported characters: {style |> supported_chars}"]
-                )
+              String.concat
+                "\n"
+                [Printf.sprintf "Invalid characters found for style \"%s\": %s" (style.name) (String.concat " " invalidChars);
+                 Printf.sprintf "Supported characters: %s" (supported_chars style)] in
 
-            if invalidChars.Length = 0
+            if List.length invalidChars = 0
             then Ok args
-            else Error <| error style
+            else Error (error style) in
 
-        result {
-            let! args = argCount rawArgs
-            let! args' = styleName args
-            let! args'' = inputLength args'
-            let! args''' = inputChars args''
-            return args'''
-        }
+        let ( let* ) = Result.bind in
+        let* args = argCount rawArgs in
+        let* args' = styleName args in
+        let* args'' = inputLength args' in
+        let* args''' = inputChars args'' in
+        Ok args'''
+end
 
 open ArgValidation
 open Styles
 
 let args = validate
 
-let getStyle args =
+let get_style args =
     styles
-    |> List.filter (fun s -> s.name = args.Style);
-    |> List.head
+    |> List.filter (fun s -> s.name = args.style)
+    |> List.hd
 
-let convertText args style =
-    let text = args.Text
-    let converter = style.Converter
+let convert_text args style =
+  let text : string = args.text in
+  let converter : char -> string = style.converter in
+  text
+  |> String.to_seq
+  |> Seq.map converter
+  |> List.of_seq
+  |> fun lst -> String.concat "" lst
 
-    text
-    |> Seq.map converter
-    |> Seq.map string
-    |> String.concat System.String.Empty
-
-match args with
-| Error e ->
-    e |> eprintfn "%s"
-| Ok a ->
-    a
-    |> getStyle
-    |> convertText a
-    |> printfn "%s"
+let () =
+  match args with
+  | Error e ->
+      Printf.eprintf "%s\n" e
+  | Ok a ->
+      a
+      |> get_style
+      |> (convert_text a)
+      |> fun s -> Printf.printf "%s\n" s
