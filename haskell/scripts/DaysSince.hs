@@ -9,7 +9,7 @@ module DaysSince where
 import qualified Data.Text.IO as T
 import qualified Data.Text as T
 import Control.Exception (IOException, try)
-import GHC.Internal.System.Environment (getArgs)
+import System.Environment (getArgs)
 
 main :: IO ()
 main = do
