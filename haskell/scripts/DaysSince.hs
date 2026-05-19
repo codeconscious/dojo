@@ -31,7 +31,7 @@ checkArgs = do
         case args of
         [] -> Left "You must enter the filename!"
         [arg] -> Right arg
-        _ -> Left "Too many args! Enter only the filename."
+        _ -> Left "Too many args! Enter only the filename containing dates."
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
 readSmallFile filepath = do
