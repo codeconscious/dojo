@@ -22,21 +22,21 @@ main = do
 
     handleContent content = do
         let lineCount = length $ T.lines content
-        putStrLn $ "This file has " ++ show lineCount ++ " lines!"
+        putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
 
 checkArgs :: IO (Either String String)
 checkArgs = do
     args <- getArgs
     return $
         case args of
-        [] -> Left "You must enter the filename!"
+        [] -> Left "You must provide the filename as an argument."
         [arg] -> Right arg
-        _ -> Left "Too many args! Enter only the filename containing dates."
+        _ -> Left "Too many arguments! Provide only the filename containing dates."
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
 readSmallFile filepath = do
     result <- try (T.readFile filepath) :: IO (Either IOException T.Text)
     return $
         case result of
-        Left ex -> Left ("Error reading file: " ++ show ex)
+        Left exn -> Left ("Error reading file: " ++ show exn)
         Right content -> Right content
