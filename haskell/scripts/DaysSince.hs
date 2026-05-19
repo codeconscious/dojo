@@ -10,6 +10,8 @@ import qualified Data.Text.IO as T
 import qualified Data.Text as T
 import Control.Exception (IOException, try)
 import System.Environment (getArgs)
+import Control.Monad.Except
+import Control.Monad.IO.Class
 
 main :: IO ()
 main = do
@@ -23,6 +25,17 @@ main = do
     handleContent content = do
         let lineCount = length $ T.lines content
         putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
+
+main' :: IO ()
+main' =
+    runExceptT computation >>= either putStrLn return
+    where
+        computation = do
+            arg <- ExceptT checkArgs
+            content <- ExceptT $ readSmallFile arg
+            liftIO $ do
+                let lineCount = length $ T.lines content
+                putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
 
 checkArgs :: IO (Either String String)
 checkArgs = do
