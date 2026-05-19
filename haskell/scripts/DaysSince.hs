@@ -14,15 +14,15 @@ import System.Environment (getArgs)
 main :: IO ()
 main = do
     safeArg <- checkArgs
-    case safeArg of
-        Left err -> putStrLn err
-        Right arg -> do
-            maybeContent <- readSmallFile arg
-            case maybeContent of
-                Left err -> putStrLn err
-                Right content -> do
-                    let lineCount = length (T.lines content)
-                    putStrLn $ "File has " ++ show lineCount ++ " lines!"
+    either putStrLn process safeArg
+  where
+    process arg = do
+        maybeContent <- readSmallFile arg
+        either putStrLn handleContent maybeContent
+
+    handleContent content = do
+        let lineCount = length $ T.lines content
+        putStrLn $ "This file has " ++ show lineCount ++ " lines!"
 
 checkArgs :: IO (Either String String)
 checkArgs = do
