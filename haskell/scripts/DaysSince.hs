@@ -18,8 +18,8 @@ main = do
     safeArg <- checkArgs
     either putStrLn process safeArg
   where
-    process arg = do
-        maybeContent <- readSmallFile arg
+    process fileName = do
+        maybeContent <- readSmallFile fileName
         either putStrLn handleContent maybeContent
 
     handleContent content = do
@@ -31,8 +31,8 @@ main' =
     runExceptT computation >>= either putStrLn return
     where
         computation = do
-            arg <- ExceptT checkArgs
-            content <- ExceptT $ readSmallFile arg
+            fileName <- ExceptT checkArgs
+            content <- ExceptT $ readSmallFile fileName
             liftIO $ do
                 let lineCount = length $ T.lines content
                 putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
