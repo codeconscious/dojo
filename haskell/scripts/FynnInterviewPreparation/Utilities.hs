@@ -4,12 +4,18 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 {-# OPTIONS_GHC -fwarn-name-shadowing #-}
 
-module Utilities (ensureEqualTo) where
+module Utilities (ensureEqualTo, ensureEqualTo') where
 
 import qualified Control.Monad
 
 ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
 ensureEqualTo expected actual =
-  Control.Monad.when
-    (expected /= actual)
-    $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
+    Control.Monad.when
+        (expected /= actual)
+        $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
+
+ensureEqualTo' :: (Eq a, Show a) => a -> a -> Maybe String
+ensureEqualTo' expected actual =
+    if expected == actual
+        then Nothing
+        else Just $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
