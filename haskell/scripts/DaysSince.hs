@@ -13,21 +13,21 @@ import System.Environment (getArgs)
 import Control.Monad.Except
 import Control.Monad.IO.Class
 
+-- main :: IO ()
+-- main = do
+--     safeArg <- checkArgs
+--     either putStrLn process safeArg
+--   where
+--     process fileName = do
+--         maybeContent <- readSmallFile fileName
+--         either putStrLn handleContent maybeContent
+
+--     handleContent content = do
+--         let lineCount = length $ T.lines content
+--         putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
+
 main :: IO ()
-main = do
-    safeArg <- checkArgs
-    either putStrLn process safeArg
-  where
-    process fileName = do
-        maybeContent <- readSmallFile fileName
-        either putStrLn handleContent maybeContent
-
-    handleContent content = do
-        let lineCount = length $ T.lines content
-        putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
-
-main' :: IO ()
-main' =
+main =
     runExceptT computation >>= either putStrLn return
     where
         computation = do
