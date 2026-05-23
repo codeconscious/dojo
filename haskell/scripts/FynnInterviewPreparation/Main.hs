@@ -1,4 +1,5 @@
 -- Problems from https://github.com/0x66796e6e/interview-preparation/blob/master/markdown/
+-- Run using `runhaskell Main.hs`. Otherwise, compile via `ghc Main.hs Easy.hs Medium.hs Utilities.hs -o fip`.
 
 module Main where
 
