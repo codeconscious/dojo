@@ -41,13 +41,14 @@ five = do
 
 eight :: IO ()
 eight = do
-    let input = (15 :: Int)
+    [1..input] & mapMaybe fizzbuzz & unwords & ensureEqualTo expected
+    where
+        input :: Int = 15
         expected = "fizz buzz fizz fizz buzz fizz fizzbuzz" -- Fixed incorrect output from the source.
         fizzbuzz i | mod i 15 == 0 = Just "fizzbuzz"
                    | mod i 5  == 0 = Just "buzz"
                    | mod i 3  == 0 = Just "fizz"
                    | otherwise = Nothing
-    [1..input] & mapMaybe fizzbuzz & unwords & ensureEqualTo expected
 
 nine :: IO ()
 nine = do
