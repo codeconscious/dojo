@@ -131,7 +131,7 @@ twentyOne =
 
 twentyTwo :: IO ()
 twentyTwo =
-    [input, input-1..1] & foldl' (*) 1 & ensureEqualTo expected
+    product [input, input-1..1] & ensureEqualTo expected
     where
         input :: Int = 4
         expected = 24
