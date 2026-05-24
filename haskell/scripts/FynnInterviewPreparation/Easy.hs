@@ -113,9 +113,10 @@ sixteen = do
 
 seventeen :: IO ()
 seventeen = do
-    let input = (4 :: Int)
-        expected = (10 :: Int)
-    [input, input-1 .. 1] & foldl' (+) 0 & ensureEqualTo expected
+    sum [input, input-1 .. 1] & ensureEqualTo expected
+    where
+        input :: Int = 4
+        expected :: Int = 10
 
 eighteen :: IO ()
 eighteen = do
