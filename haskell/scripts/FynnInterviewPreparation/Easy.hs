@@ -98,9 +98,9 @@ fourteen =
 
 fifteen :: IO ()
 fifteen = do
-    let input = [2, 3, 4]
-        expected = 24 :: Int
-    input & foldl' (*) 1 & ensureEqualTo expected
+    foldl' (*) 1 input & ensureEqualTo expected
+    where input = [2, 3, 4]
+          expected :: Int = 24
 
 sixteen :: IO ()
 sixteen = do
