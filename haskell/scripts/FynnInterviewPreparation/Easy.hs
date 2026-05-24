@@ -11,7 +11,15 @@ import Data.Maybe (mapMaybe)
 import Data.List
 import Data.Char (toLower)
 import Data.Ord
-import Utilities
+import Control.Arrow ((>>>))
+-- import Utilities
+import qualified Control.Monad
+
+ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
+ensureEqualTo expected actual =
+    Control.Monad.when
+        (expected /= actual)
+        $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
 one :: IO ()
 one = do
