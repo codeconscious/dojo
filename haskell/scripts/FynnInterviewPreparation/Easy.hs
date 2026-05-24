@@ -15,9 +15,10 @@ import Utilities
 
 one :: IO ()
 one = do
-    let input = ["this", "is", "an", "array"]
+    input & map length & ensureEqualTo expected
+    where
+        input = ["this", "is", "an", "array"]
         expected = [4, 2, 2, 5]
-    map length input & ensureEqualTo expected
 
 two :: IO ()
 two = do
