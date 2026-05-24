@@ -104,11 +104,12 @@ fifteen = do
 
 sixteen :: IO ()
 sixteen = do
-    let input = "Hello my name is Fynn!!"
-        expected = "Hello"
-        isAllowedChar ch = ch `elem` concat (['a'..'z'] : ['A'..'Z'] : [[' ']])
     input & filter isAllowedChar & words & maximumBy (comparing length) & ensureEqualTo expected
     -- ensureEqualTo expected $ maximumBy (comparing length) $ words $ filter isAllowedChar input
+    where input = "Hello my name is Fynn!!"
+          expected = "Hello"
+          allowedChars = concat (['a'..'z'] : ['A'..'Z'] : [[' ']])
+          isAllowedChar ch = ch `elem` allowedChars
 
 seventeen :: IO ()
 seventeen = do
