@@ -91,9 +91,9 @@ twelve =
 
 fourteen :: IO ()
 fourteen =
-    input & nub & ensureEqualTo expected
+    nub input & ensureEqualTo expected
     where
-        input = [1 :: Int,2,2,3,4,3,2]
+        input :: [Int] = [1,2,2,3,4,3,2]
         expected = [1,2,3,4]
 
 fifteen :: IO ()
