@@ -148,3 +148,12 @@ twentyTwo =
     where
         input :: Int = 4
         expected = 24
+
+twentyThree :: IO ()
+twentyThree = do
+    let sampleInput :: [Int] = [40, 3, 100, -5]
+        sortedInput = sort sampleInput
+        indexes = [0, 3, 70, -10]
+        expected = [Just (-5), Just 100, Nothing, Nothing]
+    -- indexes & map (\i -> safeIndex i sortedInput) & ensureEqualTo expected
+    indexes & map (`safeIndex` sortedInput) & ensureEqualTo expected
