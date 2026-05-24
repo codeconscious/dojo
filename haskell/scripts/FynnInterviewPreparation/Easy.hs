@@ -28,9 +28,10 @@ two = do
 
 three :: IO ()
 three = do
-    let expected = "Hello, Candidate!"
-        greeter greeting = \candidate -> greeting ++ ", " ++ candidate ++ "!" -- "Redundant lambda"
-    greeter "Hello" "Candidate" & ensureEqualTo expected
+    greet "Hello" "Candidate" & ensureEqualTo expected
+    where
+        greet greeting name = greeting ++ ", " ++ name ++ "!"
+        expected = "Hello, Candidate!"
 
 five :: IO ()
 five = do
