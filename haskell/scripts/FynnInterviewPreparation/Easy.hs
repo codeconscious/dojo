@@ -21,6 +21,13 @@ ensureEqualTo expected actual =
         (expected /= actual)
         $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
+safeIndex :: Int -> [a] -> Maybe a
+safeIndex _ [] = Nothing
+safeIndex n (x:xs)
+    | n < 0 = Nothing
+    | n == 0 = Just x
+    | otherwise = safeIndex (n - 1) xs
+
 one :: IO ()
 one = do
     input & map length & ensureEqualTo expected
