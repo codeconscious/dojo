@@ -124,6 +124,12 @@ eighteen = do
         expected = "helo mynaisf"
     input & map toLower & nub & ensureEqualTo expected
 
+twenty :: IO ()
+twenty = do
+    let input    :: [Int] = [1, 2, 3]
+        expected :: [Int] = [1, 2, 3, 1, 2, 3]
+    (input ++ input) & ensureEqualTo expected
+
 twentyOne :: IO ()
 twentyOne =
     reverse input & ensureEqualTo expected
