@@ -8,7 +8,14 @@ module Medium where
 
 import Data.List (transpose, sort)
 import Data.Function ((&))
-import Utilities
+-- import Utilities
+import qualified Control.Monad
+
+ensureEqualTo :: (Eq a, Show a) => a -> a -> IO ()
+ensureEqualTo expected actual =
+    Control.Monad.when
+        (expected /= actual)
+        $ putStrLn $ "NOT EQUAL! Expected: " ++ show expected ++ "\n           Actual:   " ++ show actual
 
 one :: IO ()
 one = do
