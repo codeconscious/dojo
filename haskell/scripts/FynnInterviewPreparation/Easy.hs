@@ -133,9 +133,9 @@ eighteen = do
 
 twenty :: IO ()
 twenty = do
-    let input    :: [Int] = [1, 2, 3]
-        expected :: [Int] = [1, 2, 3, 1, 2, 3]
-    (input ++ input) & ensureEqualTo expected
+    let sampleInput :: [Int] = [1, 2, 3]
+        expected    :: [Int] = [1, 2, 3, 1, 2, 3]
+    (sampleInput ++ sampleInput) & ensureEqualTo expected
 
 twentyOne :: IO ()
 twentyOne =
