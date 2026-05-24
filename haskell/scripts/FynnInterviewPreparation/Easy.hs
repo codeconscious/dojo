@@ -23,7 +23,7 @@ one = do
 two :: IO ()
 two = do
     let input = [1, 2, 3, 4, 5]
-        expected = (15 :: Int)
+        expected :: Int = 15
     sum input & ensureEqualTo expected
 
 three :: IO ()
