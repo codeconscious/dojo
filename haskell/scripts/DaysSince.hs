@@ -34,17 +34,18 @@ main =
             fileName <- ExceptT checkArgs
             content <- ExceptT $ readSmallFile fileName
             liftIO $ do
-                let lineCount = length $ T.lines content
-                putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
+                let lineCount = show $ length $ T.lines content
+                    charCount = show $ T.length content
+                putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
 
 checkArgs :: IO (Either String String)
 checkArgs = do
     args <- getArgs
     return $
         case args of
-        [] -> Left "You must provide the filename as an argument."
+        [] -> Left "You must provide the name of a plain-text file as an argument."
         [arg] -> Right arg
-        _ -> Left "Too many arguments! Provide only the filename containing dates."
+        _ -> Left "Too many arguments! Provide only the name of a plain-text file containing dates."
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
 readSmallFile filepath = do
