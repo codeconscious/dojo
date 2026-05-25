@@ -38,7 +38,7 @@ main =
                     charCount = show $ T.length content
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
 
-checkArgs :: IO (Either String String)
+checkArgs :: IO (Either String FilePath)
 checkArgs = do
     args <- getArgs
     return $
