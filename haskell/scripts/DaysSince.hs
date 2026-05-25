@@ -43,13 +43,13 @@ checkArgs = do
     args <- getArgs
     return $
         case args of
-        [] -> Left "You must provide the name of a plain-text file as an argument."
+        []    -> Left "You must provide the name of a plain-text file as an argument."
         [arg] -> Right arg
-        _ -> Left "Too many arguments! Provide only the name of a plain-text file containing dates."
+        _     -> Left "Too many arguments! Provide only the name of a plain-text file containing dates."
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
-readSmallFile filepath = do
-    result <- try (T.readFile filepath) :: IO (Either IOException T.Text)
+readSmallFile filePath = do
+    result <- try (T.readFile filePath) :: IO (Either IOException T.Text)
     return $
         case result of
         Left exn -> Left ("Error reading file: " ++ show exn)
