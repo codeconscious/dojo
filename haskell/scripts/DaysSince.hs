@@ -47,9 +47,9 @@ checkArgs = do
     args <- getArgs
     return $
         case args of
-        []    -> Left "You must provide the name of a plain-text file as an argument."
+        []    -> Left "You must provide the name of a CSV as an argument."
         [arg] -> Right arg
-        _     -> Left "Too many arguments! Provide only the name of a plain-text file containing dates."
+        _     -> Left "Too many arguments! Provide only the name of a CSV containing dates."
 
 checkExtension :: FilePath -> Either [Char] FilePath
 checkExtension p
