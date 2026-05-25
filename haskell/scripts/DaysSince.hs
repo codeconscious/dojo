@@ -12,7 +12,7 @@ import Control.Exception (IOException, try)
 import System.Environment (getArgs)
 import Control.Monad.Except
 import Control.Monad.IO.Class
-import Data.Function ((&))
+-- import Data.Function ((&))
 import System.FilePath
 import Data.Char (toLower)
 
@@ -35,7 +35,8 @@ main =
     where
         computation = do
             fileName <- ExceptT checkArgs
-            content <- ExceptT $ readSmallFile fileName
+            fileName' <- ExceptT $ return $ checkExtension fileName
+            content <- ExceptT $ readSmallFile fileName'
             liftIO $ do
                 let lineCount = show $ length $ T.lines content
                     charCount = show $ T.length content
@@ -52,15 +53,16 @@ checkArgs = do
 
 checkExtension :: FilePath -> Either [Char] FilePath
 checkExtension p
-    | extension == ".txt" = Right p
-    | otherwise = Left $ "Invalid file extension: " ++ extension
+    | ext == supportedExt = Right p
+    | otherwise           = Left $ "Invalid file extension: " ++ ext
     where
-        extension = p & takeExtension & map toLower
+        ext = map toLower $ takeExtension p
+        supportedExt = ".csv"
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
 readSmallFile filePath = do
     result <- try (T.readFile filePath) :: IO (Either IOException T.Text)
     return $
         case result of
-        Left exn -> Left ("Error reading file: " ++ show exn)
+        Left exn -> Left $ "Error reading file: " ++ show exn
         Right content -> Right content
