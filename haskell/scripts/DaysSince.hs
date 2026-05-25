@@ -12,6 +12,9 @@ import Control.Exception (IOException, try)
 import System.Environment (getArgs)
 import Control.Monad.Except
 import Control.Monad.IO.Class
+import Data.Function ((&))
+import System.FilePath
+import Data.Char (toLower)
 
 -- main :: IO ()
 -- main = do
@@ -46,6 +49,13 @@ checkArgs = do
         []    -> Left "You must provide the name of a plain-text file as an argument."
         [arg] -> Right arg
         _     -> Left "Too many arguments! Provide only the name of a plain-text file containing dates."
+
+checkExtension :: FilePath -> Either [Char] FilePath
+checkExtension p
+    | extension == ".txt" = Right p
+    | otherwise = Left $ "Invalid file extension: " ++ extension
+    where
+        extension = p & takeExtension & map toLower
 
 readSmallFile :: FilePath -> IO (Either [Char] T.Text)
 readSmallFile filePath = do
