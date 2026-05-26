@@ -36,7 +36,7 @@ main =
         computation = do
             fileName <- checkArgs
             fileName' <- checkExtension fileName
-            content <- ExceptT $ readSmallFile fileName'
+            content <- readSmallFile fileName'
             liftIO $ do
                 let lineCount = show $ length $ T.lines content
                     charCount = show $ T.length content
@@ -58,10 +58,9 @@ checkExtension p
         ext = map toLower $ takeExtension p
         supportedExt = ".csv"
 
-readSmallFile :: FilePath -> IO (Either String T.Text)
+readSmallFile :: FilePath -> ExceptT String IO T.Text
 readSmallFile filePath = do
-    result <- try (T.readFile filePath) :: IO (Either IOException T.Text)
-    return $
-        case result of
-        Left exn -> Left $ "Error reading file: " ++ show exn
-        Right content -> Right content
+    result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
+    case result of
+        Left exn -> throwError $ "Error reading file: " ++ show exn
+        Right content -> return content
