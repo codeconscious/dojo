@@ -16,19 +16,6 @@ import Control.Monad.IO.Class
 import System.FilePath
 import Data.Char (toLower)
 
--- main :: IO ()
--- main = do
---     safeArg <- checkArgs
---     either putStrLn process safeArg
---   where
---     process fileName = do
---         maybeContent <- readSmallFile fileName
---         either putStrLn handleContent maybeContent
-
---     handleContent content = do
---         let lineCount = length $ T.lines content
---         putStrLn $ "This file has " ++ show lineCount ++ " line(s)."
-
 main :: IO ()
 main =
     runExceptT computation >>= either putStrLn return
