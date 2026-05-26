@@ -51,7 +51,7 @@ checkArgs = do
         [arg] -> Right arg
         _     -> Left "Too many arguments! Provide only the name of a CSV containing dates."
 
-checkExtension :: FilePath -> ExceptT [Char] IO FilePath
+checkExtension :: FilePath -> ExceptT String IO FilePath
 checkExtension p
     | ext == supportedExt = return p
     | otherwise = throwError $ "Invalid file extension: " ++ ext
@@ -59,7 +59,7 @@ checkExtension p
         ext = map toLower $ takeExtension p
         supportedExt = ".csv"
 
-readSmallFile :: FilePath -> IO (Either [Char] T.Text)
+readSmallFile :: FilePath -> IO (Either String T.Text)
 readSmallFile filePath = do
     result <- try (T.readFile filePath) :: IO (Either IOException T.Text)
     return $
