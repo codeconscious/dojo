@@ -34,7 +34,7 @@ main =
     runExceptT computation >>= either putStrLn return
     where
         computation = do
-            fileName <- ExceptT checkArgs
+            fileName <- checkArgs
             fileName' <- checkExtension fileName
             content <- ExceptT $ readSmallFile fileName'
             liftIO $ do
@@ -42,14 +42,13 @@ main =
                     charCount = show $ T.length content
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
 
-checkArgs :: IO (Either String FilePath)
+checkArgs :: ExceptT String IO FilePath
 checkArgs = do
-    args <- getArgs
-    return $
-        case args of
-        []    -> Left "You must provide the name of a CSV as an argument."
-        [arg] -> Right arg
-        _     -> Left "Too many arguments! Provide only the name of a CSV containing dates."
+    args <- liftIO getArgs
+    case args of
+        []    -> throwError "You must provide the name of a CSV as an argument."
+        [arg] -> return arg
+        _     -> throwError "Too many arguments! Provide only the name of a CSV containing dates."
 
 checkExtension :: FilePath -> ExceptT String IO FilePath
 checkExtension p
