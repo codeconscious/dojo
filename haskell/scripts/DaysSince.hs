@@ -35,7 +35,7 @@ main =
     where
         computation = do
             fileName <- ExceptT checkArgs
-            fileName' <- ExceptT $ return $ checkExtension fileName
+            fileName' <- checkExtension fileName
             content <- ExceptT $ readSmallFile fileName'
             liftIO $ do
                 let lineCount = show $ length $ T.lines content
@@ -51,10 +51,10 @@ checkArgs = do
         [arg] -> Right arg
         _     -> Left "Too many arguments! Provide only the name of a CSV containing dates."
 
-checkExtension :: FilePath -> Either [Char] FilePath
+checkExtension :: FilePath -> ExceptT [Char] IO FilePath
 checkExtension p
-    | ext == supportedExt = Right p
-    | otherwise           = Left $ "Invalid file extension: " ++ ext
+    | ext == supportedExt = return p
+    | otherwise = throwError $ "Invalid file extension: " ++ ext
     where
         ext = map toLower $ takeExtension p
         supportedExt = ".csv"
