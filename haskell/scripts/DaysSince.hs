@@ -26,9 +26,11 @@ main =
             checkExtension fileName
             content <- readSmallFile fileName
             liftIO $ do
-                let lineCount = show $ length $ T.lines content
+                let lines_    = map T.unpack $ T.lines content
+                    lineCount = show $ length lines_
                     charCount = show $ T.length content
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
+                mapM_ putStrLn (("> " ++) <$> take 3 lines_) -- 或いは: mapM_ putStrLn $ fmap ("> " ++) $ take 3 lines_
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
