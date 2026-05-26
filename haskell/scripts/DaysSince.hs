@@ -12,9 +12,9 @@ import Control.Exception (IOException, try)
 import System.Environment (getArgs)
 import Control.Monad.Except
 import Control.Monad.IO.Class
--- import Data.Function ((&))
 import System.FilePath
 import Data.Char (toLower)
+-- import Data.Function ((&))
 
 main :: IO ()
 main =
@@ -47,7 +47,8 @@ checkExtension p
 
 readSmallFile :: FilePath -> ExceptT String IO T.Text
 readSmallFile filePath = do
-    result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
+    -- result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
+    result <- liftIO $ try @IOException (T.readFile filePath)
     case result of
         Left exn -> throwError $ "Error reading file: " ++ show exn
         Right content -> return content
