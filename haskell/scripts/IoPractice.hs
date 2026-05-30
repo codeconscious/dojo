@@ -32,3 +32,6 @@ v1 = do
 
 v2 :: IO ()
 v2 = putStrLn "Enter a string:" >> getLine >>= (putStrLn . shout)
+
+v3 :: IO ()
+v3 = putStrLn "Enter a string:" >> fmap shout getLine >>= putStrLn
