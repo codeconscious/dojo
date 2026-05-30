@@ -21,8 +21,14 @@ shout :: String -> String
 shout = map toUpper
 
 main :: IO ()
-main = do
+main = v2
+
+v1 :: IO ()
+v1 = do
     putStrLn "Enter a string:"
     input <- getLine
     let asUpper = shout input
     putStrLn asUpper
+
+v2 :: IO ()
+v2 = putStrLn "Enter a string:" >> getLine >>= (putStrLn . shout)
