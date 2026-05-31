@@ -18,7 +18,8 @@ import Control.Monad.IO.Class
 import System.FilePath
 import Data.Char (toLower, toUpper)
 import Data.Bifunctor (first)
--- import Data.Function ((&))
+import Text.Printf (printf)
+import Data.Function ((&))
 
 shout :: String -> String
 shout = map toUpper
@@ -35,6 +36,9 @@ exercise1v0 = do
 
 exercise1v1 :: IO ()
 exercise1v1 = putStrLn "Please input your name:" >> getLine >>= (\userName -> putStrLn $ "Hello " ++ userName ++ "!")
+
+exercise1v2 :: IO ()
+exercise1v2 = putStrLn "Please input your name:" >> getLine >>= printf "Hello %s!\n"
 
 -- Exercise 2: Rewrite it with >>=, and then with do.
 foo0 :: [Int] -> [Int]
