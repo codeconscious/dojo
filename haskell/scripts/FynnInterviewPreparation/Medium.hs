@@ -27,6 +27,13 @@ one = do
             | i < 2     = i
             | otherwise = fibonacci (i - 1) + fibonacci (i - 2)
 
+three :: IO ()
+three = do
+        input & words & map reverse & unwords & ensureEqualTo expected
+    where
+        input = "Hello my name is Fynn"
+        expected = "olleH ym eman si nnyF"
+
 eight :: IO ()
 eight = do
     let input = [ [3, 4, 1, 2], [9, 4, 8, 2] ]
