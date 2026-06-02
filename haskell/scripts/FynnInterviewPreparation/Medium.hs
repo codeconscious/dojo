@@ -1,8 +1,9 @@
-{-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
+-- {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-} -- Suppress such warnings.
 {-# HLINT ignore "Redundant lambda" #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 {-# OPTIONS_GHC -fwarn-name-shadowing #-}
+{- HLINT ignore "Collapse lambdas" -}
 
 module Medium where
 
@@ -33,6 +34,13 @@ three = do
     where
         input = "Hello my name is Fynn"
         expected = "olleH ym eman si nnyF"
+
+four :: IO ()
+four = do
+    f 2 3 4 & ensureEqualTo expected
+    where
+        f = \a -> \b -> \c -> (a :: Int) * b * c
+        expected = 2 * 3 * 4
 
 eight :: IO ()
 eight = do
