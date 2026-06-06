@@ -11,12 +11,12 @@ module MonadTransformers where
 
 -- import qualified Data.Text.IO as T
 -- import qualified Data.Text as T
+-- import System.FilePath
 import Control.Exception (IOException, try)
 import Control.Monad.Trans.Maybe
-import System.FilePath
 import Control.Monad.Trans (lift, liftIO)
 import Control.Monad (guard)
-import Data.Maybe
+import Data.Maybe (fromMaybe)
 -- import Data.Function ((&))
 
 main :: IO ()
