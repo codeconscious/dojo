@@ -16,14 +16,13 @@ import Control.Monad.Trans.Maybe
 import System.FilePath
 import Control.Monad.Trans (lift, liftIO)
 import Control.Monad (guard)
+import Data.Maybe
 -- import Data.Function ((&))
 
 main :: IO ()
 main = do
     result <- runMaybeT v1
-    case result of
-       Just str -> putStrLn str
-       Nothing -> putStrLn "Nothing was entered!"
+    putStrLn $ fromMaybe "Nothing was entered!" result
 
 v1 :: MaybeT IO String
 v1 = do
