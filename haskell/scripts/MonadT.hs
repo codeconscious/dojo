@@ -21,12 +21,12 @@ import Data.Maybe
 
 main :: IO ()
 main = do
-    result <- runMaybeT v1
-    putStrLn $ fromMaybe "Nothing was entered!" result
+    maybeStr <- runMaybeT v1
+    putStrLn $ fromMaybe "Nothing was entered!" maybeStr
 
 v1 :: MaybeT IO String
 v1 = do
     lift $ putStrLn "Enter any text:"
     input <- lift getLine
-    guard (not (null input))
-    return $ "Your text: " ++ input
+    guard (not $ null input)
+    pure $ "Your text: " ++ input
