@@ -14,19 +14,20 @@ import Control.Monad.Trans.Maybe
 import Control.Monad.Trans (lift, liftIO)
 import Control.Monad (guard)
 import Data.Maybe (fromMaybe)
+import Data.Char (toUpper)
 -- import Data.Function ((&))
 
 main :: IO ()
 main = do
     maybeStr <- runMaybeT v1
-    putStrLn $ fromMaybe "Nothing was entered!" maybeStr
+    putStrLn $ fromMaybe "何も書いてないじゃん！" maybeStr
 
 v1 :: MaybeT IO String
 v1 = do
-    lift $ putStrLn "Enter any text:"
+    lift $ putStrLn "何か文字を入力してくれ。"
     input <- lift getLine
     guard (not $ null input)
-    pure $ "Your text: " ++ input
+    pure $ "「" ++ map toUpper input ++ "」と言ったな。"
 
 -- v1' :: IO (Maybe String)
 -- v1' = do
