@@ -9,28 +9,25 @@
 
 module MonadTransformers where
 
-import qualified Data.Text.IO as T
-import qualified Data.Text as T
+-- import qualified Data.Text.IO as T
+-- import qualified Data.Text as T
 import Control.Exception (IOException, try)
 import Control.Monad.Trans.Maybe
-import System.Environment (getArgs)
-import Control.Monad.Except
-import Control.Monad.IO.Class
 import System.FilePath
-import Text.Printf (printf)
 import Control.Monad.Trans (lift, liftIO)
-import Data.Function ((&))
-import Control.Monad (msum)
+import Control.Monad (guard)
+-- import Data.Function ((&))
 
 main :: IO ()
 main = do
     result <- runMaybeT v1
     case result of
        Just str -> putStrLn str
-       Nothing -> putStrLn "Nothing!" -- Never hit.
+       Nothing -> putStrLn "Nothing was entered!"
 
 v1 :: MaybeT IO String
 v1 = do
     lift $ putStrLn "Enter any text:"
     input <- lift getLine
+    guard (not (null input))
     return $ "Your text: " ++ input
