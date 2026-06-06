@@ -1,6 +1,3 @@
-
--- SOURCE: https://nauths.fr/en/2026/05/28/practical-use-of-monads.html
-
 -- {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-} -- Suppress such warnings.
 {-# HLINT ignore "Redundant lambda" #-}
@@ -30,3 +27,10 @@ v1 = do
     input <- lift getLine
     guard (not $ null input)
     pure $ "Your text: " ++ input
+
+-- v1' :: IO (Maybe String)
+-- v1' = do
+--     putStrLn "Enter any text:"
+--     input <- getLine
+--     guard (not $ null input)
+--     Just $ "Your text: " ++ input -- Fails.
