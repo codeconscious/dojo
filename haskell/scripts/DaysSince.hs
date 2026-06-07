@@ -21,10 +21,10 @@ main :: IO ()
 main =
     runExceptT computation >>= either putStrLn return
     where
-        computation = do
+        computation :: ExceptT String IO () = do
             fileName <- checkArgs
             checkExtension fileName
-            content <- readSmallFile fileName
+            content <- readSmallFile' fileName
             liftIO $ do
                 let lines_    = map T.unpack $ T.lines content
                     lineCount = show $ length lines_
@@ -41,20 +41,19 @@ checkArgs = do
         _     -> throwError "Too many arguments! Provide only the name of a CSV containing dates."
 
 checkExtension :: FilePath -> ExceptT String IO ()
-checkExtension p
-    | ext == supportedExt = return ()
-    | otherwise = throwError $ "Invalid file extension: " ++ ext
+checkExtension path
+    | isSupportedExt = return ()
+    | otherwise      = throwError $ "Invalid file extension: " ++ ext
     where
-        ext = map toLower $ takeExtension p
-        supportedExt = ".csv"
+        ext = map toLower $ takeExtension path
+        isSupportedExt = ext == ".csv"
 
 readSmallFile :: FilePath -> ExceptT String IO T.Text
 readSmallFile filePath = do
-    -- result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
-    result <- liftIO $ try @IOException (T.readFile filePath)
+    result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
     case result of
-        Left exn -> throwError $ "Error reading file: " ++ show exn
-        Right content -> return content
+        Left exn   -> throwError $ "Error reading file: " ++ show exn
+        Right text -> return text
 
 readSmallFile' :: FilePath -> ExceptT String IO T.Text
 readSmallFile' filePath = do
