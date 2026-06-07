@@ -25,10 +25,10 @@ main = do -- This is IO, not MaybeT IO.
 v1 :: MaybeT IO String
 v1 = do
     -- Note: We are inside the MaybeT IO monad, and the `do` block expects every line
-    -- to be `MaybeT IO` (whether one of String or unit).
+    -- to be `MaybeT IO` (whether one of String or unit or other).
     lift $ putStrLn "何か文字を入力してくれ。" -- lift :: IO () -> MaybeT IO ()
     input <- lift getLine -- lift :: IO String -> MaybeT IO String
     guard (not $ null input) -- `guard` is already monad-aware and works in any MonadPlus (which MaybeT is).
-    pure $ "文字数は" ++ show (length input) ++ "である。" -- `pure` is from Applicative and lifts the String into MaybeT IO String.
+    return $ "文字数は" ++ show (length input) ++ "である。" -- Applicativeのpureも可能で、StringをMaybeT IO Stringにliftする役割。
 
 -- Other: Functions like guard, when, fail already "know" they're in a monad.
