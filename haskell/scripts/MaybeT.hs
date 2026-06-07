@@ -18,20 +18,17 @@ import Data.Char (toUpper)
 -- import Data.Function ((&))
 
 main :: IO ()
-main = do
-    maybeStr <- runMaybeT v1
+main = do -- This is IO, not MaybeT IO.
+    maybeStr <- runMaybeT v1 -- :: MaybeT IO String -> IO (Maybe String)
     putStrLn $ fromMaybe "何も書いてないじゃん！" maybeStr
 
 v1 :: MaybeT IO String
 v1 = do
-    lift $ putStrLn "何か文字を入力してくれ。"
-    input <- lift getLine
-    guard (not $ null input)
-    pure $ "「" ++ map toUpper input ++ "」と言ったな。"
+    -- Note: We are inside the MaybeT IO monad, and the `do` block expects every line
+    -- to be `MaybeT IO` (whether one of String or unit).
+    lift $ putStrLn "何か文字を入力してくれ。" -- lift :: IO () -> MaybeT IO ()
+    input <- lift getLine -- lift :: IO String -> MaybeT IO String
+    guard (not $ null input) -- `guard` is already monad-aware and works in any MonadPlus (which MaybeT is).
+    pure $ "「" ++ map toUpper input ++ "」と言ったな。" -- `pure` is from Applicative and lifts the String into MaybeT IO String.
 
--- v1' :: IO (Maybe String)
--- v1' = do
---     putStrLn "Enter any text:"
---     input <- getLine
---     guard (not $ null input)
---     Just $ "Your text: " ++ input -- Fails.
+-- Other: Functions like guard, when, fail already "know" they're in a monad.
