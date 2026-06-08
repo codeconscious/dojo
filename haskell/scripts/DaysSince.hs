@@ -15,7 +15,18 @@ import Control.Monad.IO.Class
 import System.FilePath
 import Data.Char (toLower)
 import Data.Bifunctor (first)
+import Data.Text (Text)
+import Data.Time
+import Data.Maybe
+import Data.Either (rights)
 -- import Data.Function ((&))
+
+data RowSummary = RowSummary {
+      category  :: Text
+    , summary   :: Text
+    , date      :: Day
+    , daysSince :: Integer
+} deriving (Show)
 
 main :: IO ()
 main =
@@ -26,11 +37,15 @@ main =
             checkExtension fileName
             content <- readSmallFile' fileName
             liftIO $ do
-                let lines_    = map T.unpack $ T.lines content
+                let lines_    = T.lines content
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
+                    -- output    = catMaybes $ runExceptT <$> fmap parseLine lines_
+                    output    = fmap rights . mapM runExceptT . fmap parseLine
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                mapM_ putStrLn (("> " ++) <$> take 3 lines_) -- 或いは: mapM_ putStrLn $ fmap ("> " ++) $ take 3 lines_
+                -- mapM_ putStrLn (parseLine <$> take 3 lines_) -- 或いは: mapM_ putStrLn $ fmap ("> " ++) $ take 3 lines_
+                results <- output lines_
+                mapM_ print results
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
@@ -59,3 +74,15 @@ readSmallFile' :: FilePath -> ExceptT String IO T.Text
 readSmallFile' filePath = do
     result <- liftIO $ try @IOException (T.readFile filePath)
     liftEither $ first (("Error reading file: " ++) . show) result
+
+parseLine :: Text -> ExceptT String IO RowSummary
+parseLine text = do
+    now <- liftIO $ utctDay <$> getCurrentTime
+    case T.splitOn separator text of
+        [c, s, d] -> return $ RowSummary c s (toDay d) (diffDays now (toDay d))
+        _         -> throwError "Failed to parse line"
+    where
+        separator = T.pack "," :: Text
+        toDay d = read $ T.unpack d :: Day
+        -- now = utctDay <$> getCurrentTime
+        -- daysSince x = diffDays x now
