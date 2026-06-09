@@ -40,10 +40,8 @@ main =
                 let lines_    = T.lines content
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
-                    -- output    = catMaybes $ runExceptT <$> fmap parseLine lines_
                     output    = fmap rights . mapM runExceptT . fmap parseLine
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                -- mapM_ putStrLn (parseLine <$> take 3 lines_) -- 或いは: mapM_ putStrLn $ fmap ("> " ++) $ take 3 lines_
                 results <- output lines_
                 mapM_ print results
 
