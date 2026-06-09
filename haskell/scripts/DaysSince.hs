@@ -77,7 +77,7 @@ parseLine :: Text -> ExceptT String IO RowSummary
 parseLine text = do
     now <- liftIO $ utctDay <$> getCurrentTime
     case T.splitOn separator text of
-        [c, s, d] -> return $ RowSummary c s (toDay d) (diffDays now (toDay d))
+        [c, s, d] -> return $ RowSummary c (T.strip s) (toDay d) (diffDays now (toDay d))
         _         -> throwError "Failed to parse line"
     where
         separator = T.pack "," :: Text
