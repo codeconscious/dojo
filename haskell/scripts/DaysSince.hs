@@ -14,8 +14,10 @@ import Control.Monad.IO.Class
 import Data.Bifunctor (first)
 import Data.Char (toLower)
 import Data.Either (lefts, rights)
+import Data.List (sortBy)
 import Data.Text (Text)
 import Data.Time
+import Data.Ord (comparing)
 import System.Environment (getArgs)
 import System.FilePath
 import Text.Read (readEither)
@@ -48,7 +50,7 @@ main =
                     errors    = fmap lefts . parsed
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 results <- successes lines_
-                mapM_ print results
+                mapM_ print $ sortBy (comparing category) results
                 errs <- errors lines_
                 -- mapM_ print errs
                 if null errs
