@@ -18,7 +18,7 @@ import Data.Bifunctor (first)
 import Data.Text (Text)
 import Data.Time
 import Data.Maybe
-import Data.Either (rights)
+import Data.Either (lefts, rights)
 -- import Data.Function ((&))
 
 data RowSummary = RowSummary {
@@ -40,10 +40,18 @@ main =
                 let lines_    = T.lines content
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
-                    output    = fmap rights . mapM runExceptT . fmap parseLine
+                    parsed    = mapM runExceptT . fmap parseLine
+                    -- parsed = traverse (runExceptT . parseLine)
+                    successes = fmap rights . parsed
+                    errors    = fmap lefts . parsed
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                results <- output lines_
+                results <- successes lines_
                 mapM_ print results
+                errs <- errors lines_
+                -- mapM_ print errs
+                if null errs
+                    then return ()
+                    else putStrLn $ "There were" ++ show (length errs) ++ "parse errors."
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
