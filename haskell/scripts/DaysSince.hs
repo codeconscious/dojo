@@ -22,11 +22,14 @@ import Text.Read (readEither)
 -- import Data.Function ((&))
 
 data RowSummary = RowSummary {
-      category  :: Text
-    , summary   :: Text
+      category  :: String
+    , summary   :: String
     , date      :: Day
     , daysSince :: Integer
-} deriving (Show)
+}
+
+instance Show RowSummary where
+    show (RowSummary c s d ds) = c ++ " | " ++ s ++ " | " ++ show d ++ " | " ++ show ds
 
 main :: IO ()
 main =
@@ -90,9 +93,9 @@ parseLine text = do
         [c, s, d] ->
             let parsedDay = readEither $ T.unpack d :: Either String Day in
             case parsedDay of
-                Left err  -> throwError $ "Failed to parse \"" ++ T.unpack d ++ "\" in line with category " ++ show (T.unpack c) ++ " and summary " ++ show (T.unpack s) ++ ": " ++ err
-                Right day -> return $ RowSummary c (T.strip s) day (diffDays now day)
-        _ -> throwError "Failed to parse line!"
+                Left err  -> throwError $ "* Error parsing date \"" ++ T.unpack d ++ "\" in line with category " ++ show (T.unpack c) ++ " and summary " ++ show (T.unpack s) ++ ": " ++ err
+                Right day -> return $ RowSummary (T.unpack c) (T.unpack $ T.strip s) day (diffDays now day)
+        _ -> throwError $ "* Error parsing malformed line: " ++ T.unpack text
     where
         separator = T.pack "," :: Text
         -- now = utctDay <$> getCurrentTime
