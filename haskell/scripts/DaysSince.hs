@@ -1,4 +1,4 @@
--- {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
+{-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-} -- Suppress such warnings.
 {-# HLINT ignore "Redundant lambda" #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
@@ -17,8 +17,8 @@ import Data.Char (toLower)
 import Data.Bifunctor (first)
 import Data.Text (Text)
 import Data.Time
-import Data.Maybe
 import Data.Either (lefts, rights)
+import Text.Read (readEither)
 -- import Data.Function ((&))
 
 data RowSummary = RowSummary {
@@ -51,7 +51,9 @@ main =
                 -- mapM_ print errs
                 if null errs
                     then return ()
-                    else putStrLn $ "There were" ++ show (length errs) ++ "parse errors."
+                    else do
+                        putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
+                        mapM_ putStrLn errs
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
@@ -85,10 +87,13 @@ parseLine :: Text -> ExceptT String IO RowSummary
 parseLine text = do
     now <- liftIO $ utctDay <$> getCurrentTime
     case T.splitOn separator text of
-        [c, s, d] -> return $ RowSummary c (T.strip s) (toDay d) (diffDays now (toDay d))
-        _         -> throwError "Failed to parse line"
+        [c, s, d] ->
+            let parsedDay = readEither $ T.unpack d :: Either String Day in
+            case parsedDay of
+                Left err  -> throwError $ "Failed to parse \"" ++ T.unpack d ++ "\" in line with category " ++ show (T.unpack c) ++ " and summary " ++ show (T.unpack s) ++ ": " ++ err
+                Right day -> return $ RowSummary c (T.strip s) day (diffDays now day)
+        _ -> throwError "Failed to parse line!"
     where
         separator = T.pack "," :: Text
-        toDay d = read $ T.unpack d :: Day
         -- now = utctDay <$> getCurrentTime
         -- daysSince x = diffDays x now
