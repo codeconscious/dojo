@@ -8,6 +8,7 @@ module DaysSince where
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
+import qualified Data.Map.Strict as Map
 import Control.Exception (IOException, try)
 import Control.Monad.Except
 import Control.Monad.IO.Class
@@ -51,6 +52,9 @@ main =
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 results <- successes lines_
                 mapM_ print $ sortBy (comparing category) results
+
+                -- let groups = Map.fromListWith (++) [(category s, [s]) | s <- results]
+
                 errs <- errors lines_
                 -- mapM_ print errs
                 if null errs
