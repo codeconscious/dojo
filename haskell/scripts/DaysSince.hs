@@ -6,18 +6,18 @@
 
 module DaysSince where
 
-import qualified Data.Text.IO as T
 import qualified Data.Text as T
+import qualified Data.Text.IO as T
 import Control.Exception (IOException, try)
-import System.Environment (getArgs)
 import Control.Monad.Except
 import Control.Monad.IO.Class
-import System.FilePath
-import Data.Char (toLower)
 import Data.Bifunctor (first)
+import Data.Char (toLower)
+import Data.Either (lefts, rights)
 import Data.Text (Text)
 import Data.Time
-import Data.Either (lefts, rights)
+import System.Environment (getArgs)
+import System.FilePath
 import Text.Read (readEither)
 -- import Data.Function ((&))
 
@@ -43,8 +43,7 @@ main =
                 let lines_    = T.lines content
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
-                    parsed    = mapM runExceptT . fmap parseLine
-                    -- parsed = traverse (runExceptT . parseLine)
+                    parsed    = mapM runExceptT . fmap parseLine -- もしくは、traverse (runExceptT . parseLine)
                     successes = fmap rights . parsed
                     errors    = fmap lefts . parsed
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
@@ -98,5 +97,3 @@ parseLine text = do
         _ -> throwError $ "* Error parsing malformed line: " ++ T.unpack text
     where
         separator = T.pack "," :: Text
-        -- now = utctDay <$> getCurrentTime
-        -- daysSince x = diffDays x now
