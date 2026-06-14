@@ -46,17 +46,11 @@ main =
             let lines_ = T.lines content
                 lineCount = show $ length lines_
                 charCount = show $ T.length content
-                parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
-                getOks  p = rights <$> parsed p
-                getErrs p = lefts  <$> parsed p
+                parsed    = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
             liftIO $ do
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                results <- getOks lines_
-                mapM_ print $ sortBy (comparing category) results
-                errs <- getErrs lines_
-                unless (null errs) $ do
-                    putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
-                    mapM_ putStrLn errs
+                showSuccesses $ rights <$> parsed
+                showErrors $ lefts <$> parsed
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
@@ -98,3 +92,15 @@ parseLine text = do
         _ -> throwError $ "* Error parsing malformed line: " ++ T.unpack text
     where
         separator = T.pack "," :: Text
+
+showSuccesses :: IO [RowSummary] -> IO ()
+showSuccesses xs = do
+    xs' <- xs
+    mapM_ print $ sortBy (comparing category) xs'
+
+showErrors :: IO [String] -> IO ()
+showErrors errs = do
+    errs' <- errs
+    unless (null errs') $ do
+        putStrLn $ "There were " ++ show (length errs') ++ " parse error(s)."
+        mapM_ putStrLn errs'
