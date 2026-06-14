@@ -10,6 +10,7 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as T
 -- import qualified Data.Map.Strict as Map
 import Control.Exception (IOException, try)
+import Control.Monad (unless)
 import Control.Monad.Except
 import Control.Monad.IO.Class
 import Data.Bifunctor (first)
@@ -56,11 +57,9 @@ main =
                 -- let groups = Map.fromListWith (++) [(category s, [s]) | s <- results]
 
                 errs <- getErrs lines_
-                if null errs
-                    then return ()
-                    else do
-                        putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
-                        mapM_ putStrLn errs
+                unless (null errs) $ do
+                    putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
+                    mapM_ putStrLn errs
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
