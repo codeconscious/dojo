@@ -48,8 +48,8 @@ main =
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
                     parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
-                    getOks    = fmap rights . parsed
-                    getErrs   = fmap lefts . parsed
+                    getOks  p = rights <$> parsed p
+                    getErrs p = lefts  <$> parsed p
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 results <- getOks lines_
                 mapM_ print $ sortBy (comparing category) results
