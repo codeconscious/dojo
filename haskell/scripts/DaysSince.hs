@@ -43,19 +43,16 @@ main =
             fileName <- checkArgs
             checkExtension fileName
             content <- readSmallFile' fileName
+            let lines_ = T.lines content
+                lineCount = show $ length lines_
+                charCount = show $ T.length content
+                parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
+                getOks  p = rights <$> parsed p
+                getErrs p = lefts  <$> parsed p
             liftIO $ do
-                let lines_    = T.lines content
-                    lineCount = show $ length lines_
-                    charCount = show $ T.length content
-                    parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
-                    getOks  p = rights <$> parsed p
-                    getErrs p = lefts  <$> parsed p
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 results <- getOks lines_
                 mapM_ print $ sortBy (comparing category) results
-
-                -- let groups = Map.fromListWith (++) [(category s, [s]) | s <- results]
-
                 errs <- getErrs lines_
                 unless (null errs) $ do
                     putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
