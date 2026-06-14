@@ -47,9 +47,9 @@ main =
                 lineCount = show $ length lines_
                 charCount = show $ T.length content
                 results   = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
-                successes = rights <$> results
-                errors    = lefts <$> results
             liftIO $ do
+                successes <- rights <$> results
+                errors <- lefts <$> results
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 showSuccesses successes
                 showErrors errors
@@ -95,14 +95,12 @@ parseLine text = do
     where
         separator = T.pack "," :: Text
 
-showSuccesses :: IO [RowSummary] -> IO ()
+showSuccesses :: [RowSummary] -> IO ()
 showSuccesses xs = do
-    xs' <- xs
-    mapM_ print $ sortBy (comparing category) xs'
+    mapM_ print $ sortBy (comparing category) xs
 
-showErrors :: IO [String] -> IO ()
+showErrors :: [String] -> IO ()
 showErrors errs = do
-    errs' <- errs
-    unless (null errs') $ do
-        putStrLn $ "There were " ++ show (length errs') ++ " parse error(s)."
-        mapM_ putStrLn errs'
+    unless (null errs) $ do
+        putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
+        mapM_ putStrLn errs
