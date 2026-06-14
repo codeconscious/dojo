@@ -16,6 +16,7 @@ import Control.Monad.IO.Class
 import Data.Bifunctor (first)
 import Data.Char (toLower)
 import Data.Either (lefts, rights)
+-- import Data.Function ((&))
 import Data.List (sortBy)
 import Data.Text (Text)
 import Data.Time
@@ -23,7 +24,6 @@ import Data.Ord (comparing)
 import System.Environment (getArgs)
 import System.FilePath
 import Text.Read (readEither)
--- import Data.Function ((&))
 
 data RowSummary = RowSummary {
       category  :: String
@@ -48,11 +48,11 @@ main =
                 charCount = show $ T.length content
                 results   = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
             liftIO $ do
-                successes <- rights <$> results
+                summaries <- rights <$> results
                 errors <- lefts <$> results
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                showSuccesses successes
-                showErrors errors
+                printSummaries summaries
+                printErrors errors
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
@@ -95,12 +95,12 @@ parseLine text = do
     where
         separator = T.pack "," :: Text
 
-showSuccesses :: [RowSummary] -> IO ()
-showSuccesses xs = do
-    mapM_ print $ sortBy (comparing category) xs
+printSummaries :: [RowSummary] -> IO ()
+printSummaries summaries = do
+    mapM_ print $ sortBy (comparing category) summaries
 
-showErrors :: [String] -> IO ()
-showErrors errs = do
+printErrors :: [String] -> IO ()
+printErrors errs = do
     unless (null errs) $ do
         putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
         mapM_ putStrLn errs
