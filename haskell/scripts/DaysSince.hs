@@ -43,14 +43,16 @@ main =
             fileName <- checkArgs
             checkExtension fileName
             content <- readSmallFile' fileName
-            let lines_ = T.lines content
+            let lines_    = T.lines content
                 lineCount = show $ length lines_
                 charCount = show $ T.length content
-                parsed    = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
+                results   = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
+                successes = rights <$> results
+                errors    = lefts <$> results
             liftIO $ do
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                showSuccesses $ rights <$> parsed
-                showErrors $ lefts <$> parsed
+                showSuccesses successes
+                showErrors errors
 
 checkArgs :: ExceptT String IO FilePath
 checkArgs = do
