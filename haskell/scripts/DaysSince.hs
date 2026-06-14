@@ -46,7 +46,7 @@ main =
                 let lines_    = T.lines content
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
-                    parsed    = mapM runExceptT . fmap parseLine -- もしくは、traverse (runExceptT . parseLine)
+                    parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
                     successes = fmap rights . parsed
                     errors    = fmap lefts . parsed
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
