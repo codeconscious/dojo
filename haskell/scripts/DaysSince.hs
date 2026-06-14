@@ -8,7 +8,7 @@ module DaysSince where
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
-import qualified Data.Map.Strict as Map
+-- import qualified Data.Map.Strict as Map
 import Control.Exception (IOException, try)
 import Control.Monad.Except
 import Control.Monad.IO.Class
@@ -47,16 +47,15 @@ main =
                     lineCount = show $ length lines_
                     charCount = show $ T.length content
                     parsed    = traverse (runExceptT . parseLine) -- 同じ: mapM runExceptT . fmap parseLine
-                    successes = fmap rights . parsed
-                    errors    = fmap lefts . parsed
+                    getOks    = fmap rights . parsed
+                    getErrs   = fmap lefts . parsed
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
-                results <- successes lines_
+                results <- getOks lines_
                 mapM_ print $ sortBy (comparing category) results
 
                 -- let groups = Map.fromListWith (++) [(category s, [s]) | s <- results]
 
-                errs <- errors lines_
-                -- mapM_ print errs
+                errs <- getErrs lines_
                 if null errs
                     then return ()
                     else do
@@ -98,7 +97,7 @@ parseLine text = do
         [c, s, d] ->
             let parsedDay = readEither $ T.unpack d :: Either String Day in
             case parsedDay of
-                Left err  -> throwError $ "* Error parsing date \"" ++ T.unpack d ++ "\" in line with category " ++ show (T.unpack c) ++ " and summary " ++ show (T.unpack s) ++ ": " ++ err
+                Left err  -> throwError $ "* Error parsing date \"" ++ T.unpack d ++ "\" in line with category " ++ show (T.unpack c) ++ " and summary " ++ show (T.unpack s) ++ ": `" ++ err ++ "`"
                 Right day -> return $ RowSummary (T.unpack c) (T.unpack $ T.strip s) day (diffDays now day)
         _ -> throwError $ "* Error parsing malformed line: " ++ T.unpack text
     where
