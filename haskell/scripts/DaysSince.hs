@@ -15,7 +15,7 @@ import Control.Monad.Except
 import Control.Monad.IO.Class
 import Data.Bifunctor (first)
 import Data.Char (toLower)
-import Data.Either (lefts, rights)
+import Data.Either (partitionEithers)
 -- import Data.Function ((&))
 import Data.List (sortBy)
 import Data.Text (Text)
@@ -48,8 +48,7 @@ main =
                 charCount = show $ T.length content
                 results   = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
             liftIO $ do
-                summaries <- rights <$> results
-                errors <- lefts <$> results
+                (errors, summaries) <- partitionEithers <$> results
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
                 printSummaries summaries
                 printErrors errors
