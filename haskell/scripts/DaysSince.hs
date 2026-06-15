@@ -48,8 +48,8 @@ main =
                 charCount = show $ T.length content
                 results   = traverse (runExceptT . parseLine) lines_ -- 同じ: mapM runExceptT . fmap parseLine
             liftIO $ do
-                (errors, summaries) <- partitionEithers <$> results
                 putStrLn $ "This file has " ++ lineCount ++ " line(s) and " ++ charCount ++ " character(s)."
+                (errors, summaries) <- partitionEithers <$> results
                 printSummaries summaries
                 printErrors errors
 
@@ -103,3 +103,6 @@ printErrors errs = do
     unless (null errs) $ do
         putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
         mapM_ putStrLn errs
+
+mapWithIndex :: (Int -> a -> b) -> [a] -> [b]
+mapWithIndex f xs = [f i x | (i, x) <- zip [0..] xs]
