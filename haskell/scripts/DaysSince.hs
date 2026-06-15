@@ -69,12 +69,12 @@ checkExtension path
         ext = map toLower $ takeExtension path
         isSupportedExt = ext == ".csv"
 
-readSmallFile :: FilePath -> ExceptT String IO T.Text
-readSmallFile filePath = do
-    result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
-    case result of
-        Left exn   -> throwError $ "Error reading file: " ++ show exn
-        Right text -> return text
+-- readSmallFile :: FilePath -> ExceptT String IO T.Text
+-- readSmallFile filePath = do
+--     result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
+--     case result of
+--         Left exn   -> throwError $ "Error reading file: " ++ show exn
+--         Right text -> return text
 
 readSmallFile' :: FilePath -> ExceptT String IO T.Text
 readSmallFile' filePath = do
