@@ -1,14 +1,15 @@
 {-# OPTIONS_GHC -Wall -Werror #-} -- Treat warnings as errors.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-} -- Suppress such warnings.
+{-# OPTIONS_GHC -Wno-unused-imports #-}
 {-# HLINT ignore "Redundant lambda" #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 {-# OPTIONS_GHC -fwarn-name-shadowing #-}
-{-# OPTIONS_GHC -Wno-unused-top-binds #-}
+-- {-# OPTIONS_GHC -Wno-unused-top-binds #-}
 
 module Main (main) where
 
 import Lib
-
+import IO
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Control.Exception (IOException, try)
@@ -60,11 +61,6 @@ checkExtension path
         ext = map toLower $ takeExtension path
         isSupportedExt = ext == ".csv"
 
-readSmallFile' :: FilePath -> ExceptT String IO T.Text
-readSmallFile' filePath = do
-    result <- liftIO $ try @IOException (T.readFile filePath)
-    liftEither $ first (("Error reading file: " ++) . show) result
-
 parseLine :: Text -> ExceptT String IO RowSummary
 parseLine text = do
     now <- liftIO $ utctDay <$> getCurrentTime
@@ -88,5 +84,5 @@ printErrors errs = do
         putStrLn $ "There were " ++ show (length errs) ++ " parse error(s)."
         mapM_ putStrLn errs
 
-mapWithIndex :: (Int -> a -> b) -> [a] -> [b]
-mapWithIndex f xs = [f i x | (i, x) <- zip [0..] xs]
+-- mapWithIndex :: (Int -> a -> b) -> [a] -> [b]
+-- mapWithIndex f xs = [f i x | (i, x) <- zip [0..] xs]
