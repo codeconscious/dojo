@@ -35,6 +35,11 @@ ghc-options:
 
 library:
   source-dirs: src
+  dependencies:
+  - text
+  - mtl
+  - time
+  - filepath
 
 executables:
   days-away-exe:

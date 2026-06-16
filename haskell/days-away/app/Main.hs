@@ -7,36 +7,24 @@
 
 module Main (main) where
 
--- import Lib
+import Lib
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
--- import qualified Data.Map.Strict as Map
 import Control.Exception (IOException, try)
 import Control.Monad (unless)
-import Control.Monad.Except
-import Control.Monad.IO.Class
+import Control.Monad.Except (liftEither, runExceptT, MonadError(throwError), ExceptT)
+import Control.Monad.IO.Class (MonadIO(liftIO))
 import Data.Bifunctor (first)
 import Data.Char (toLower)
 import Data.Either (partitionEithers)
--- import Data.Function ((&))
 import Data.List (sortBy)
 import Data.Text (Text)
-import Data.Time
+import Data.Time (diffDays, getCurrentTime, Day, UTCTime(utctDay))
 import Data.Ord (comparing)
 import System.Environment (getArgs)
-import System.FilePath
+import System.FilePath (takeExtension)
 import Text.Read (readEither)
-
-data RowSummary = RowSummary {
-      category :: String
-    , summary  :: String
-    , date     :: Day
-    , daysAway :: Integer
-}
-
-instance Show RowSummary where
-    show (RowSummary c s d da) = c ++ " | " ++ s ++ " | " ++ show d ++ " | " ++ show da
 
 main :: IO ()
 main =
@@ -71,13 +59,6 @@ checkExtension path
     where
         ext = map toLower $ takeExtension path
         isSupportedExt = ext == ".csv"
-
--- readSmallFile :: FilePath -> ExceptT String IO T.Text
--- readSmallFile filePath = do
---     result <- liftIO (try (T.readFile filePath) :: IO (Either IOException T.Text))
---     case result of
---         Left exn   -> throwError $ "Error reading file: " ++ show exn
---         Right text -> return text
 
 readSmallFile' :: FilePath -> ExceptT String IO T.Text
 readSmallFile' filePath = do

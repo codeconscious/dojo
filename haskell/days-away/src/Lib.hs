@@ -1,6 +1,16 @@
 module Lib
-    ( someFunc
-    ) where
+    -- ( someFunc
+    -- )
+where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Data.Time (diffDays, getCurrentTime, Day, UTCTime(utctDay))
+
+data RowSummary = RowSummary {
+      category :: String
+    , summary  :: String
+    , date     :: Day
+    , daysAway :: Integer
+}
+
+instance Show RowSummary where
+    show (RowSummary c s d da) = c ++ " | " ++ s ++ " | " ++ show d ++ " | " ++ show da
